@@ -1,9 +1,7 @@
 <template>
   <TresCanvas window-size>
-    <TresOrbitControls
-      v-if="renderer"
-      :args="[camera, renderer?.domElement]"
-    />
+    <TresPerspectiveCamera />
+    <OrbitControls />
     <TresMesh>
       <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
       <TresMeshBasicMaterial color="orange" />
@@ -13,11 +11,9 @@
 </template>
 
 <script setup>
-import { TresCanvas, useTresContext, useTresContextProvider, extend } from '@tresjs/core';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import {
+  TresCanvas,
+} from '@tresjs/core';
+import { OrbitControls } from '@tresjs/cientos';
 
-extend({ OrbitControls });
-const {} = useTresContextProvider();
-const { camera, renderer } = useTresContext();
 </script>
