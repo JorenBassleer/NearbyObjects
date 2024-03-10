@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   root: true,
   env: {
@@ -24,11 +22,9 @@ module.exports = {
   settings: {
     'import/resolver': {
       alias: {
-        map: [
-          ['@', './src/'],
-        ],
+        map: [['@', './src/']],
         extensions: ['.js', '.vue'],
       },
     },
-  }
-}
+  },
+};
