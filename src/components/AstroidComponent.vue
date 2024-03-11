@@ -28,7 +28,7 @@ const props = defineProps({
 
 const { onLoop } = useRenderLoop();
 
-const asteroidRef = shallowRef(null);
+const astroidRef = shallowRef(null);
 
 const pbrTexture = await useTexture({
   map: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_Displacement.jpg',
@@ -41,13 +41,18 @@ const pbrTexture = await useTexture({
   ambientOcclusion:
     'https://raw.githubusercontent.com/Tresjs/assets/main/textures/black-rock/Rock035_2K_AmbientOcclusion.jpg',
 });
-
-onLoop(({ delta }) => {
-  if (asteroidRef.value) {
-    console.log('in loop 2 ');
-
-    asteroidRef.value.rotation.y += 1;
-    console.log(asteroidRef.value.rotation.y);
+onLoop(({ delta, elapsed }) => {
+  if (astroidRef.value) {
+    // Get from astroid data
+    const orbitRadiusX = 10;
+    // Get from astroid data
+    const orbitRadiusZ = 15;
+    const orbitSpeed = 0.05;
+    const angle = (props.rotationEarth + elapsed) * orbitSpeed;
+    astroidRef.value.rotation.y += Math.sin(delta * orbitSpeed);
+    astroidRef.value.rotation.z += Math.sin(delta * orbitSpeed);
+    astroidRef.value.position.x = orbitRadiusX * Math.sin(angle);
+    astroidRef.value.position.z = orbitRadiusZ * Math.cos(angle);
   }
 })
 </script>
