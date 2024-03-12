@@ -24,6 +24,12 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  positionEarth: {
+    type: Object,
+    default: () => ({
+      x: 0, y: 0, z: 0,
+    }),
+  }
 });
 
 const { onLoop } = useRenderLoop();
@@ -52,8 +58,8 @@ onLoop(({ delta, elapsed }) => {
     const angle = (props.rotationEarth + elapsed) * orbitSpeed;
     astroidRef.value.rotation.y += Math.sin(delta * orbitSpeed);
     astroidRef.value.rotation.z += Math.sin(delta * orbitSpeed);
-    astroidRef.value.position.x = orbitRadiusX * Math.sin(angle);
-    astroidRef.value.position.z = orbitRadiusZ * Math.cos(angle);
+    astroidRef.value.position.x = props.positionEarth.x + orbitRadiusX * Math.sin(angle);
+    astroidRef.value.position.z = props.positionEarth.z + orbitRadiusZ * Math.cos(angle);
   }
 })
 </script>

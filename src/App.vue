@@ -5,7 +5,7 @@
     <Suspense>
       <AstroidComponent
         :rotation-earth="currentEarthRotation"
-        :earth-position="currentEarthPosition"
+        :position-earth="currentEarthPosition"
       />
     </Suspense>
     <Suspense>
