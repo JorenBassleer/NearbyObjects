@@ -1,11 +1,14 @@
 <template>
-  <GLTFModel
-    path="/Earth.gltf"
-    draco
+  <primitive
+    :object="scene"
+    :position="[1,5,10]"
+    :scale="[10,10,10]"
   />
 </template>
 <script setup>
-import { GLTFModel } from '@tresjs/cientos';
+import { useGLTF } from '@tresjs/cientos';
 
-console.log('earthCoomponent loaded');
+const { scene } = await useGLTF('/Earth.glb');
+console.log('earthScene', scene);
+
 </script>
