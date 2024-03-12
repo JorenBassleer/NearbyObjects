@@ -44,10 +44,11 @@ const pbrTexture = await useTexture({
 onLoop(({ delta, elapsed }) => {
   if (astroidRef.value) {
     // Get from astroid data
-    const orbitRadiusX = 10;
+    const orbitRadiusX = 5;
     // Get from astroid data
-    const orbitRadiusZ = 15;
+    const orbitRadiusZ = 5;
     const orbitSpeed = 0.05;
+    // Make a composable out of this calculation
     const angle = (props.rotationEarth + elapsed) * orbitSpeed;
     astroidRef.value.rotation.y += Math.sin(delta * orbitSpeed);
     astroidRef.value.rotation.z += Math.sin(delta * orbitSpeed);
