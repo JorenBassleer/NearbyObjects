@@ -17,6 +17,7 @@
     </TresMesh>
     <SunComponent v-model:sunRotation="currentSunRotation" />
     <TresAmbientLight :intensity="1" />
+    <Stars :rotation="[0, starsRotation, 0]" />
   </TresCanvas>
 </template>
 
@@ -26,7 +27,7 @@ import {
   TresCanvas, useRenderLoop,
 } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { OrbitControls } from '@tresjs/cientos';
+import { OrbitControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AstroidComponent from './components/AstroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
@@ -35,12 +36,14 @@ const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
 const currentSunRotation = shallowRef(0);
+const starsRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 onLoop(({ delta, elapsed }) => {
   if (earthRef.value) {
     earthRef.value.rotation.y += delta;
+    starsRotation.value = currentSunRotation.value;
     currentEarthRotation.value = earthRef.value.rotation.y;
     // Get from astroid data
     const orbitRadiusX = 10;
