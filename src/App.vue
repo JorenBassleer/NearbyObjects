@@ -1,5 +1,8 @@
 <template>
-  <TresCanvas window-size>
+  <TresCanvas
+    window-size
+    shadows
+  >
     <TresPerspectiveCamera />
     <OrbitControls />
     <Suspense>
@@ -11,12 +14,20 @@
     <Suspense>
       <EarthComponent />
     </Suspense>
-    <TresMesh ref="earthRef">
+    <TresMesh
+      ref="earthRef"
+      cast-shadow
+    >
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
     <SunComponent v-model:sunRotation="currentSunRotation" />
-    <TresAmbientLight :intensity="1" />
+    <Stars :rotation="[0, starsRotation, 0]" />
+    <TresPointLight
+      :args="['0xff0000', 500, 1000]"
+      :position="[0,0,0]"
+      cast-shadow
+    />
   </TresCanvas>
 </template>
 
@@ -26,7 +37,7 @@ import {
   TresCanvas, useRenderLoop,
 } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { OrbitControls } from '@tresjs/cientos';
+import { OrbitControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AstroidComponent from './components/AstroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
@@ -35,12 +46,14 @@ const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
 const currentSunRotation = shallowRef(0);
+const starsRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 onLoop(({ delta, elapsed }) => {
   if (earthRef.value) {
     earthRef.value.rotation.y += delta;
+    starsRotation.value += (delta / 100);
     currentEarthRotation.value = earthRef.value.rotation.y;
     // Get from astroid data
     const orbitRadiusX = 10;
