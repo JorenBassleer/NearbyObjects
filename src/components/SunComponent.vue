@@ -19,7 +19,7 @@ const sunRef = shallowRef();
 
 onLoop(({ delta }) => {
   if (sunRef.value) {
-    sunRef.value.rotation.y += delta;
+    sunRef.value.rotation.y += (delta / 100);
     sunRotation.value = sunRef.value.rotation.y;
   }
 });

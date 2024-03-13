@@ -43,7 +43,7 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 onLoop(({ delta, elapsed }) => {
   if (earthRef.value) {
     earthRef.value.rotation.y += delta;
-    starsRotation.value = currentSunRotation.value;
+    starsRotation.value += (delta / 100);
     currentEarthRotation.value = earthRef.value.rotation.y;
     // Get from astroid data
     const orbitRadiusX = 10;
