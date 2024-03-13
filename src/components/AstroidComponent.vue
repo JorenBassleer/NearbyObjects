@@ -1,7 +1,7 @@
 <template>
   <TresMesh
     ref="astroidRef"
-    cast-shadow
+    receive-shadow
     :position="[1,5,10]"
   >
     <TresTorusGeometry :args="[1, 5, 5]" />

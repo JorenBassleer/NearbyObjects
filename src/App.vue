@@ -1,5 +1,8 @@
 <template>
-  <TresCanvas window-size>
+  <TresCanvas
+    window-size
+    shadows
+  >
     <TresPerspectiveCamera />
     <OrbitControls />
     <Suspense>
@@ -11,13 +14,20 @@
     <Suspense>
       <EarthComponent />
     </Suspense>
-    <TresMesh ref="earthRef">
+    <TresMesh
+      ref="earthRef"
+      cast-shadow
+    >
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
     <SunComponent v-model:sunRotation="currentSunRotation" />
-    <TresAmbientLight :intensity="1" />
     <Stars :rotation="[0, starsRotation, 0]" />
+    <TresPointLight
+      :args="['0xff0000', 500, 1000]"
+      :position="[0,0,0]"
+      cast-shadow
+    />
   </TresCanvas>
 </template>
 
