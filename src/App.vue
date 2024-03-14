@@ -24,11 +24,6 @@
     </TresMesh>
     <SunComponent v-model:sunRotation="currentSunRotation" />
     <Stars :rotation="[0, starsRotation, 0]" />
-    <TresPointLight
-      :args="['0xff0000', 500, 1000]"
-      :position="[0,0,0]"
-      cast-shadow
-    />
   </TresCanvas>
 </template>
 
@@ -56,6 +51,7 @@ onLoop(({ delta, elapsed }) => {
     earthRef.value.rotation.y += delta;
     starsRotation.value = currentSunRotation.value;
     currentEarthRotation.value = earthRef.value.rotation.y;
+
     // Get from astroid data
     const orbitRadiusX = 10;
     // Get from astroid data

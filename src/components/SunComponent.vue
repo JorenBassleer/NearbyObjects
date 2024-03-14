@@ -6,6 +6,11 @@
     <TresSphereGeometry :args="[1,32,32]" />
     <TresMeshBasicMaterial color="orange" />
   </TresMesh>
+  <TresPointLight
+    :args="['0xff0000', 500, 1000]"
+    :position="[0,0,0]"
+    cast-shadow
+  />
 </template>
 <script setup>
 import { shallowRef, defineProps, defineEmits } from 'vue';
