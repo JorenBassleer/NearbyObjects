@@ -3,7 +3,6 @@
     window-size
     shadows
   >
-    <TresPerspectiveCamera />
     <OrbitControls />
     <Suspense>
       <AstroidComponent
@@ -17,17 +16,17 @@
     <TresMesh
       ref="earthRef"
       cast-shadow
+      receive-shadow
     >
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
-    <SunComponent v-model:sunRotation="currentSunRotation" />
-    <Stars :rotation="[0, starsRotation, 0]" />
-    <TresPointLight
-      :args="['0xff0000', 500, 1000]"
-      :position="[0,0,0]"
-      cast-shadow
-    />
+    <Suspense>
+      <SunComponent v-model:sunRotation="currentSunRotation" />
+    </Suspense>
+    <Suspense>
+      <Stars :rotation="[0, starsRotation, 0]" />
+    </Suspense>
   </TresCanvas>
 </template>
 
@@ -53,8 +52,9 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 onLoop(({ delta, elapsed }) => {
   if (earthRef.value) {
     earthRef.value.rotation.y += delta;
-    starsRotation.value += (delta / 100);
+    starsRotation.value = currentSunRotation.value;
     currentEarthRotation.value = earthRef.value.rotation.y;
+
     // Get from astroid data
     const orbitRadiusX = 10;
     // Get from astroid data
