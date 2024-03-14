@@ -8,10 +8,17 @@
   </TresMesh>
 </template>
 <script setup>
-import { shallowRef, defineModel } from 'vue';
+import { shallowRef, defineProps, defineEmits } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 
-const sunRotation = defineModel({ type: Number, default: 0 });
+defineProps({
+  sunRotation: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const emit = defineEmits(['update:sunRotation']);
 
 const { onLoop } = useRenderLoop();
 
@@ -20,7 +27,8 @@ const sunRef = shallowRef();
 onLoop(({ delta }) => {
   if (sunRef.value) {
     sunRef.value.rotation.y += (delta / 100);
-    sunRotation.value = sunRef.value.rotation.y;
+
+    emit('update:sunRotation', sunRef.value.rotation.y);
   }
 });
 </script>
