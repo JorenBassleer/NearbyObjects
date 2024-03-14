@@ -3,7 +3,6 @@
     window-size
     shadows
   >
-    <TresPerspectiveCamera />
     <OrbitControls />
     <Suspense>
       <AstroidComponent
@@ -22,8 +21,12 @@
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
-    <SunComponent v-model:sunRotation="currentSunRotation" />
-    <Stars :rotation="[0, starsRotation, 0]" />
+    <Suspense>
+      <SunComponent v-model:sunRotation="currentSunRotation" />
+    </Suspense>
+    <Suspense>
+      <Stars :rotation="[0, starsRotation, 0]" />
+    </Suspense>
   </TresCanvas>
 </template>
 

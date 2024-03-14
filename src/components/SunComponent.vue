@@ -7,7 +7,7 @@
     <TresMeshBasicMaterial color="orange" />
   </TresMesh>
   <TresPointLight
-    :args="['0xff0000', 500, 1000]"
+    :args="['#fee21f', 500, 100]"
     :position="[0,0,0]"
     cast-shadow
   />
