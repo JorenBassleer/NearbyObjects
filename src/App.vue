@@ -17,6 +17,7 @@
     <TresMesh
       ref="earthRef"
       cast-shadow
+      receive-shadow
     >
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />

@@ -1,6 +1,7 @@
 <template>
   <TresMesh
     ref="astroidRef"
+    cast-shadow
     receive-shadow
     :position="[1,5,10]"
   >
