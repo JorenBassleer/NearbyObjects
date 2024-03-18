@@ -1,14 +1,13 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: import.meta.env,
+  baseURL: import.meta.env.API_URL,
 });
 
 instance.interceptors.response.use(
   (config) => {
-    const apiKeyString = `api_key=${import.meta.env.API_KEY}`;
     // eslint-disable-next-line no-param-reassign
-    config.config.url += config.config.url.includes('?') ? `&${apiKeyString}` : `?${apiKeyString}`;
+    config.config.url.parameters = import.meta.env.API_KEY;
   },
   (response) => response,
   (error) => {
