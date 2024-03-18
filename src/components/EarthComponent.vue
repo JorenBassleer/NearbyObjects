@@ -1,20 +1,18 @@
 <template>
-  <primitive
+  <GLTFModel
     ref="earthRef"
-    :object="scene"
-    draco
+    :scale="[20,20,20]"
+    path="/models/Earth.glb"
+    :position="[5,5,5]"
   />
 </template>
 <script setup>
 import { shallowRef, watch } from 'vue';
-// eslint-disable-next-line import/no-unresolved
-import { GLTFModel, useGLTF } from '@tresjs/cientos';
+import { GLTFModel } from '@tresjs/cientos';
 
 const earthRef = shallowRef();
 
-const { scene } = await useGLTF('/models/Earth.glb');
-
 watch(earthRef, (model) => {
-  console.log('model', model);
+  console.log('model', model.value);
 });
 </script>

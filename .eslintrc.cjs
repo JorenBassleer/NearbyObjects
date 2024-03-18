@@ -22,7 +22,10 @@ module.exports = {
   settings: {
     'import/resolver': {
       alias: {
-        map: [['@', './src/']],
+        map: [
+         ['@', './src/'],
+         ['@axios', './src/services/axios'],
+        ],
         extensions: ['.js', '.vue'],
       },
     },
