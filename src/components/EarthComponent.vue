@@ -1,16 +1,22 @@
 <template>
-  <GLTFModel
-    ref="earthRef"
-    :scale="[20,20,20]"
-    path="/models/Earth.glb"
-    :position="[5,5,5]"
-  />
+  <Suspense>
+    <GLTFModel
+      ref="earthRef"
+      path="/models/Earth.glb"
+      :scale="[10,10,10,10,10,10]"
+      draco
+    />
+  </Suspense>
 </template>
 <script setup>
 import { shallowRef, watch } from 'vue';
+import { useTresContext } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
 
 const earthRef = shallowRef();
+const { scene } = useTresContext();
+
+console.log('scene', scene.value);
 
 watch(earthRef, (model) => {
   console.log('model', model.value);

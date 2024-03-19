@@ -10,9 +10,7 @@
         :position-earth="currentEarthPosition"
       />
     </Suspense>
-    <Suspense>
-      <EarthComponent />
-    </Suspense>
+    <EarthComponent />
     <TresMesh
       ref="earthRef"
       cast-shadow
@@ -21,9 +19,7 @@
       <TresTorusGeometry :args="[1, 0.5, 32, 64]" />
       <TresMeshBasicMaterial color="orange" />
     </TresMesh>
-    <Suspense>
-      <SunComponent v-model:sunRotation="currentSunRotation" />
-    </Suspense>
+    <SunComponent v-model:sunRotation="currentSunRotation" />
     <Suspense>
       <Stars :rotation="[0, starsRotation, 0]" />
     </Suspense>
@@ -70,6 +66,6 @@ onLoop(({ delta, elapsed }) => {
 });
 
 onMounted(async () => {
-  await fetchLast7Days();
+  // await fetchLast7Days();
 });
 </script>
