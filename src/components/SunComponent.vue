@@ -1,11 +1,12 @@
 <template>
-  <TresMesh
-    ref="sunRef"
-    :position="[0,0,0]"
-  >
-    <TresSphereGeometry :args="[1,32,32]" />
-    <TresMeshBasicMaterial color="orange" />
-  </TresMesh>
+  <Suspense>
+    <GLTFModel
+      ref="sunRef"
+      path="/models/Sun.glb"
+      :scale="0.005"
+      draco
+    />
+  </Suspense>
   <TresPointLight
     :args="['#fee21f', 500, 100]"
     :position="[0,0,0]"
@@ -13,8 +14,11 @@
   />
 </template>
 <script setup>
-import { shallowRef, defineProps, defineEmits } from 'vue';
+import {
+  shallowRef, defineProps, defineEmits, watch,
+} from 'vue';
 import { useRenderLoop } from '@tresjs/core';
+import { GLTFModel } from '@tresjs/cientos';
 
 defineProps({
   sunRotation: {
@@ -29,11 +33,15 @@ const { onLoop } = useRenderLoop();
 
 const sunRef = shallowRef();
 
-onLoop(({ delta }) => {
-  if (sunRef.value) {
-    sunRef.value.rotation.y += (delta / 100);
+watch(sunRef, (model) => {
+  onLoop(({ delta }) => {
+    if (model.value) {
+      // eslint-disable-next-line no-param-reassign
+      model.value.rotation.y += (delta / 100);
 
-    emit('update:sunRotation', sunRef.value.rotation.y);
-  }
+      emit('update:sunRotation', model.value.rotation.y);
+    }
+  });
 });
+
 </script>
