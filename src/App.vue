@@ -10,9 +10,7 @@
         :position-earth="currentEarthPosition"
       />
     </Suspense>
-    <Suspense>
-      <EarthComponent />
-    </Suspense>
+    <EarthComponent />
     <TresMesh
       ref="earthRef"
       cast-shadow
