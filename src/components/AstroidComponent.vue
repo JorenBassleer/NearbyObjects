@@ -3,6 +3,8 @@
     <GLTFModel
       ref="astroidRef"
       path="/models/Itokawa.glb"
+      cast-shadow
+      receive-shadow
       :scale="0.002"
       draco
     />
