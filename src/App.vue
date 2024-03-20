@@ -4,12 +4,10 @@
     shadows
   >
     <OrbitControls />
-    <Suspense>
-      <AstroidComponent
-        :rotation-earth="currentEarthRotation"
-        :position-earth="currentEarthPosition"
-      />
-    </Suspense>
+    <AstroidComponent
+      :rotation-earth="currentEarthRotation"
+      :position-earth="currentEarthPosition"
+    />
     <EarthComponent />
     <TresMesh
       ref="earthRef"
@@ -23,6 +21,7 @@
     <Suspense>
       <Stars :rotation="[0, starsRotation, 0]" />
     </Suspense>
+    <TresAmbientLight />
   </TresCanvas>
 </template>
 
