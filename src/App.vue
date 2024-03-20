@@ -23,9 +23,7 @@
 
 <script setup>
 import { shallowRef, onMounted } from 'vue';
-import {
-  TresCanvas, useRenderLoop,
-} from '@tresjs/core';
+import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { OrbitControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
@@ -33,16 +31,9 @@ import AstroidComponent from './components/AstroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
 import { fetchLast7Days } from './api/asteroid';
 
-const { onLoop } = useRenderLoop();
-
 const currentSunRotation = shallowRef(0);
-const starsRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
-
-onLoop(() => {
-  starsRotation.value = currentSunRotation.value;
-});
 
 onMounted(async () => {
   // await fetchLast7Days();
