@@ -16,10 +16,6 @@ import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
 
 const props = defineProps({
-  astroid: {
-    type: Object,
-    default: () => {},
-  },
   rotationEarth: {
     type: Number,
     required: true,
@@ -43,7 +39,7 @@ watch(astroidRef, (model) => {
       const orbitRadiusX = 3;
       // Get from astroid data
       const orbitRadiusZ = 3;
-      const orbitSpeed = 0.05;
+      const orbitSpeed = 0.5;
       // Make a composable out of this calculation
       const angle = (props.rotationEarth + elapsed) * orbitSpeed;
       /* eslint-disable no-param-reassign */
