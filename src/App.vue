@@ -5,6 +5,9 @@
   >
     <OrbitControls />
     <AstroidComponent
+      v-for="astroid in allAstroids"
+      :key="astroid.id"
+      :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
     />
@@ -34,8 +37,12 @@ import { fetchLast7Days } from './api/asteroid';
 const currentSunRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
+const allAstroids = shallowRef([]);
 
 onMounted(async () => {
-  await fetchLast7Days();
+  let fetchedData = await fetchLast7Days();
+  fetchedData = Object.values(fetchedData).flat();
+
+  allAstroids.value = fetchedData.slice(0, 10);
 });
 </script>

@@ -5,7 +5,7 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="0.002"
+      :scale="astroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100"
       draco
     />
   </Suspense>
@@ -13,9 +13,14 @@
 <script setup>
 import { defineProps, shallowRef, watch } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
+// eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
 
 const props = defineProps({
+  astroid: {
+    type: Object,
+    required: true,
+  },
   rotationEarth: {
     type: Number,
     required: true,
@@ -29,6 +34,8 @@ const props = defineProps({
 });
 
 const { onLoop } = useRenderLoop();
+
+console.log('another astroid component', props.astroid);
 
 const astroidRef = shallowRef(null);
 
@@ -45,8 +52,8 @@ watch(astroidRef, (model) => {
       /* eslint-disable no-param-reassign */
       model.value.rotation.y += Math.sin(delta * orbitSpeed);
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + orbitRadiusX * Math.sin(angle);
-      model.value.position.z = props.positionEarth.z + orbitRadiusZ * Math.cos(angle);
+      model.value.position.x = props.positionEarth.x + orbitRadiusX * Math.sin(angle + props.astroid.estimated_diameter.kilometers.estimated_diameter_min);
+      model.value.position.z = props.positionEarth.z + orbitRadiusZ * Math.cos(angle + props.astroid.estimated_diameter.kilometers.estimated_diameter_min);
       /* eslint-enable no-param-reassign */
     }
   });
