@@ -9,8 +9,6 @@ export const fetchLast7Days = async () => {
     // response.links (prev & next & self)
     return testData.near_earth_objects;
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
     return null;
   }
 };

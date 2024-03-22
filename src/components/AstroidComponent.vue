@@ -35,8 +35,6 @@ const props = defineProps({
 
 const { onLoop } = useRenderLoop();
 
-console.log('another astroid component', props.astroid);
-
 const astroidRef = shallowRef(null);
 
 watch(astroidRef, (model) => {
