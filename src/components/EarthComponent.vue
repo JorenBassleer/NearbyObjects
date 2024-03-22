@@ -45,14 +45,14 @@ const earthRef = shallowRef();
 watch(earthRef, (model) => {
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
-    model.value.rotation.y += (delta - 0.001);
+    model.value.rotation.y += (delta - 0.0001);
     rotationEarth.value = model.value.rotation.y;
 
     // Get from astroid data
     const orbitRadiusX = 10;
     // Get from astroid data
     const orbitRadiusZ = 15;
-    const orbitSpeed = 0.05;
+    const orbitSpeed = 0.007;
     const angle = (props.rotationSun + elapsed) * orbitSpeed;
     model.value.position.x = orbitRadiusX * Math.sin(angle);
     model.value.position.z = orbitRadiusZ * Math.cos(angle);
