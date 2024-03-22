@@ -36,6 +36,6 @@ const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 onMounted(async () => {
-  // await fetchLast7Days();
+  await fetchLast7Days();
 });
 </script>
