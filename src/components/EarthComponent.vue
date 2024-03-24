@@ -2,10 +2,12 @@
   <Suspense>
     <GLTFModel
       ref="earthRef"
-      path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
+      path="/models/Earth.glb"
       receive-shadow
       cast-shadow
+      :scale="0.005"
       draco
+      @click="onClick"
     />
   </Suspense>
 </template>
@@ -41,7 +43,12 @@ const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
 
+const onClick = (v) => {
+  console.log('clickedEarth:', v);
+};
+
 watch(earthRef, (model) => {
+  console.log('model', model.value);
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
     model.value.rotation.y += (delta - 0.0001);

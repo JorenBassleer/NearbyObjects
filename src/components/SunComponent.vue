@@ -17,7 +17,7 @@
 import {
   shallowRef, watch, defineModel,
 } from 'vue';
-import { useRenderLoop, useTresContext, useRaycaster } from '@tresjs/core';
+import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
 
 const sunRotation = defineModel('sunRotation', {
@@ -27,10 +27,8 @@ const sunRotation = defineModel('sunRotation', {
 
 const sunRef = shallowRef();
 const { onLoop } = useRenderLoop();
-const { raycaster } = useTresContext();
 
 watch(sunRef, (model) => {
-  console.log('raycaster', raycaster.value);
   onLoop(({ delta }) => {
     if (model.value) {
       // eslint-disable-next-line no-param-reassign

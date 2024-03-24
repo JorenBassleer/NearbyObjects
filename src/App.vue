@@ -23,7 +23,9 @@
       v-model:position-earth="currentEarthPosition"
       :rotation-sun="currentSunRotation"
     />
-    <SunComponent v-model:sunRotation="currentSunRotation" />
+    <Suspense>
+      <SunComponent v-model:sunRotation="currentSunRotation" />
+    </Suspense>
     <Suspense>
       <Stars :rotation="[0, currentSunRotation, 0]" />
     </Suspense>
@@ -32,7 +34,7 @@
 
 <script setup>
 import {
-  shallowRef, onMounted, reactive,
+  shallowRef, onMounted,
 } from 'vue';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
@@ -52,7 +54,7 @@ const setAstroidInfo = (astroid) => {
   console.log('astroid data:', astroid);
 };
 
-const controlsState = reactive({
+const controlsState = shallowRef({
   minDistance: 0,
   maxDistance: 100,
 });
@@ -62,5 +64,4 @@ onMounted(async () => {
 
   allAstroids.value = fetchedData.slice(0, 10);
 });
-
 </script>
