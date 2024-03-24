@@ -48,7 +48,6 @@ const onClick = (v) => {
 };
 
 watch(earthRef, (model) => {
-  console.log('model', model.value);
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
     model.value.rotation.y += (delta - 0.0001);

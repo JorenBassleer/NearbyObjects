@@ -49,7 +49,7 @@ watch(astroidRef, (model) => {
       const orbitRadiusX = 3;
       // Get from astroid data
       const orbitRadiusZ = 3;
-      const orbitSpeed = 0.09;
+      const orbitSpeed = props.astroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
       // Make a composable out of this calculation
       const angle = (props.rotationEarth + elapsed) * orbitSpeed;
       /* eslint-disable no-param-reassign */

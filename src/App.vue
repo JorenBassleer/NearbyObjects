@@ -2,7 +2,6 @@
   <TresCanvas
     window-size
     shadows
-    preset="realistic"
   >
     <TresPerspectiveCamera :position="35" />
     <CameraControls
@@ -12,6 +11,7 @@
     <AstroidComponent
       v-for="astroid in allAstroids"
       :key="astroid.id"
+      :ref="collectAstroidRefs"
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
@@ -48,6 +48,13 @@ const currentSunRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAstroids = shallowRef([]);
+const allAstroidComponents = shallowRef([]);
+
+const collectAstroidRefs = (el) => {
+  if (el) {
+    allAstroidComponents.value.push(el);
+  }
+};
 const earthRef = shallowRef();
 
 const setAstroidInfo = (astroid) => {
@@ -61,7 +68,6 @@ const controlsState = shallowRef({
 onMounted(async () => {
   let fetchedData = await fetchLast7Days();
   fetchedData = Object.values(fetchedData).flat();
-
   allAstroids.value = fetchedData.slice(0, 10);
 });
 </script>
