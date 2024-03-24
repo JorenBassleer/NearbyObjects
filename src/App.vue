@@ -2,6 +2,7 @@
   <TresCanvas
     window-size
     shadows
+    preset="realistic"
   >
     <TresPerspectiveCamera :position="35" />
     <CameraControls
@@ -26,12 +27,13 @@
     <Suspense>
       <Stars :rotation="[0, currentSunRotation, 0]" />
     </Suspense>
-    <TresAmbientLight />
   </TresCanvas>
 </template>
 
 <script setup>
-import { shallowRef, onMounted, reactive } from 'vue';
+import {
+  shallowRef, onMounted, reactive,
+} from 'vue';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { CameraControls, Stars } from '@tresjs/cientos';
@@ -49,6 +51,7 @@ const earthRef = shallowRef();
 const setAstroidInfo = (astroid) => {
   console.log('astroid data:', astroid);
 };
+
 const controlsState = reactive({
   minDistance: 0,
   maxDistance: 100,
@@ -59,4 +62,5 @@ onMounted(async () => {
 
   allAstroids.value = fetchedData.slice(0, 10);
 });
+
 </script>

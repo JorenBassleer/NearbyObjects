@@ -12,7 +12,9 @@
   </Suspense>
 </template>
 <script setup>
-import { defineProps, shallowRef, watch, defineEmits } from 'vue';
+import {
+  defineProps, shallowRef, watch, defineEmits,
+} from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';

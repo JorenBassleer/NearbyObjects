@@ -2,8 +2,7 @@
   <Suspense>
     <GLTFModel
       ref="earthRef"
-      path="/models/Earth.glb"
-      :scale="0.004"
+      path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
       receive-shadow
       cast-shadow
       draco
@@ -58,7 +57,6 @@ watch(earthRef, (model) => {
     model.value.position.z = orbitRadiusZ * Math.cos(angle);
     positionEarth.value.x = model.value.position.x;
     positionEarth.value.z = model.value.position.z;
-
     /* eslint-enable no-param-reassign */
   });
 });
