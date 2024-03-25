@@ -10,6 +10,15 @@
       @click="$emit('click')"
     />
   </Suspense>
+  <Html
+    v-if="Object.keys(astroidLocation).length > 0 && showInfo"
+    transform
+    :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z ]"
+  >
+    <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
+      I'm a Box 📦
+    </h1>
+  </Html>
 </template>
 <script setup>
 import {
@@ -17,7 +26,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { GLTFModel } from '@tresjs/cientos';
+import { GLTFModel, Html } from '@tresjs/cientos';
 
 const props = defineProps({
   astroid: {
@@ -41,6 +50,12 @@ defineEmits(['click']);
 const { onLoop } = useRenderLoop();
 
 const astroidRef = shallowRef(null);
+const astroidLocation = shallowRef({
+  x: 0,
+  y: 0,
+  z: 0,
+});
+const showInfo = shallowRef(false);
 
 watch(astroidRef, (model) => {
   onLoop(({ delta, elapsed }) => {
@@ -57,6 +72,7 @@ watch(astroidRef, (model) => {
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
       model.value.position.x = props.positionEarth.x + 0.004 + props.astroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
       model.value.position.z = props.positionEarth.z + props.astroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+      astroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */
     }
   });
