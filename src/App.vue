@@ -3,16 +3,18 @@
     window-size
     shadows
   >
-    <Html>
+    <Html
+      left
+      style="left: 0; top: 0;"
+    >
       <section class="bg-white text-gray-600 w-72 rounded-lg">
-        <h2 class="text-xl border-b px-4 py-2">
+        <h2 class="text-xl border-b px-4 py-2 ">
           Astroids
         </h2>
         <section class="max-h-64 p-4 overflow-y-scroll overflow-x-hidden ">
           <div
             v-for="astroid in allAstroids"
             :key="astroid._id"
-            :position="[]"
             class="cursor-pointer hover:text-blue-500 transition-colors duration-150"
             @click="focusAstroid(astroid)"
           >
