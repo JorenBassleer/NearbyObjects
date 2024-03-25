@@ -15,33 +15,26 @@
 </template>
 <script setup>
 import {
-  shallowRef, defineProps, defineEmits, watch,
+  shallowRef, watch, defineModel,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
 
-defineProps({
-  sunRotation: {
-    type: Number,
-    default: 0,
-  },
+const sunRotation = defineModel('sunRotation', {
+  type: Number,
+  default: 0,
 });
 
-const emit = defineEmits(['update:sunRotation']);
-
-const { onLoop } = useRenderLoop();
-
 const sunRef = shallowRef();
+const { onLoop } = useRenderLoop();
 
 watch(sunRef, (model) => {
   onLoop(({ delta }) => {
     if (model.value) {
       // eslint-disable-next-line no-param-reassign
       model.value.rotation.y += (delta / 100);
-
-      emit('update:sunRotation', model.value.rotation.y);
+      sunRotation.value = model.value.rotation.y;
     }
   });
 });
-
 </script>

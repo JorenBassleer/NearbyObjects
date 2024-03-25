@@ -3,10 +3,11 @@
     <GLTFModel
       ref="earthRef"
       path="/models/Earth.glb"
-      :scale="0.004"
       receive-shadow
       cast-shadow
+      :scale="0.005"
       draco
+      @click="onClick"
     />
   </Suspense>
 </template>
@@ -42,6 +43,10 @@ const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
 
+const onClick = (v) => {
+  console.log('clickedEarth:', v);
+};
+
 watch(earthRef, (model) => {
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
@@ -58,7 +63,6 @@ watch(earthRef, (model) => {
     model.value.position.z = orbitRadiusZ * Math.cos(angle);
     positionEarth.value.x = model.value.position.x;
     positionEarth.value.z = model.value.position.z;
-
     /* eslint-enable no-param-reassign */
   });
 });
