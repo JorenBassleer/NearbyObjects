@@ -3,6 +3,24 @@
     window-size
     shadows
   >
+    <Html>
+      <section class="bg-white text-gray-600 w-72 rounded-lg">
+        <h2 class="text-xl border-b px-4 py-2">
+          Astroids
+        </h2>
+        <section class="max-h-64 p-4 overflow-y-scroll overflow-x-hidden ">
+          <div
+            v-for="astroid in allAstroids"
+            :key="astroid._id"
+            :position="[]"
+            class="cursor-pointer hover:text-blue-500 transition-colors duration-150"
+            @click="focusAstroid(astroid)"
+          >
+            {{ astroid.name }}
+          </div>
+        </section>
+      </section>
+    </Html>
     <TresPerspectiveCamera :position="35" />
     <CameraControls
       v-bind="controlsState"
@@ -38,7 +56,7 @@ import {
 } from 'vue';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { CameraControls, Stars } from '@tresjs/cientos';
+import { CameraControls, Stars, Html } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AstroidComponent from './components/AstroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
@@ -59,6 +77,10 @@ const earthRef = shallowRef();
 
 const setAstroidInfo = (astroid) => {
   console.log('astroid data:', astroid);
+};
+
+const focusAstroid = (astroid) => {
+  console.log('focus astroid:', astroid);
 };
 
 const controlsState = shallowRef({
