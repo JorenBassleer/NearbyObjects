@@ -24,7 +24,9 @@
         </section>
       </section>
     </Html>
-    <TresPerspectiveCamera :position="35" />
+    <TresPerspectiveCamera
+      :position="currentFocus !== null ? [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z] : undefined"
+    />
     <CameraControls
       v-bind="controlsState"
       make-default
@@ -32,17 +34,17 @@
     <AstroidComponent
       v-for="astroid in allAstroids"
       :key="astroid.id"
-      :ref="collectAstroidRefs"
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
+      @update:component="allAstroidRefs.push($event)"
       @click="setAstroidInfo(astroid)"
     />
     <EarthComponent
-      ref="earthRef"
       v-model:rotation-earth="currentEarthRotation"
       v-model:position-earth="currentEarthPosition"
       :rotation-sun="currentSunRotation"
+      @update:component="earthRef = $event"
     />
     <Suspense>
       <SunComponent v-model:sunRotation="currentSunRotation" />
@@ -69,13 +71,15 @@ const currentSunRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAstroids = shallowRef([]);
-const allAstroidComponents = shallowRef([]);
+const allAstroidRefs = shallowRef([]);
+const currentFocus = shallowRef({
+  position: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+});
 
-const collectAstroidRefs = (el) => {
-  if (el) {
-    allAstroidComponents.value.push(el);
-  }
-};
 const earthRef = shallowRef();
 
 const setAstroidInfo = (astroid) => {
@@ -84,6 +88,7 @@ const setAstroidInfo = (astroid) => {
 
 const focusAstroid = (astroid) => {
   console.log('focus astroid:', astroid);
+  currentFocus.value = earthRef.value;
 };
 
 const controlsState = shallowRef({

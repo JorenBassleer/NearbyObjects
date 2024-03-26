@@ -24,7 +24,7 @@
 </template>
 <script setup>
 import {
-  shallowRef, watch, defineModel, defineProps,
+  shallowRef, watch, defineModel, defineProps, defineEmits,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel, Html } from '@tresjs/cientos';
@@ -50,6 +50,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['update:component']);
+
 const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
@@ -62,6 +64,7 @@ const onClick = (v) => {
 };
 
 watch(earthRef, (model) => {
+  emit('update:component', model.value);
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
     model.value.rotation.y += (delta - 0.0001);
