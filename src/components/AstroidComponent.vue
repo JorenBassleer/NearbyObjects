@@ -45,7 +45,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(['click']);
+const emit = defineEmits(['click', 'update:component']);
 
 const { onLoop } = useRenderLoop();
 
@@ -58,6 +58,7 @@ const astroidLocation = shallowRef({
 const showInfo = shallowRef(false);
 
 watch(astroidRef, (model) => {
+  emit('update:component', model.value);
   onLoop(({ delta, elapsed }) => {
     if (model.value) {
       // Get from astroid data

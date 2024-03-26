@@ -6,6 +6,7 @@
     <Html
       left
       style="left: 0; top: 0;"
+      wrapper-class="list"
     >
       <section class="bg-white text-gray-600 w-72 rounded-lg">
         <h2 class="text-xl border-b px-4 py-2 ">
@@ -23,7 +24,9 @@
         </section>
       </section>
     </Html>
-    <TresPerspectiveCamera :position="35" />
+    <TresPerspectiveCamera
+      :position="currentFocus !== null ? [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z] : undefined"
+    />
     <CameraControls
       v-bind="controlsState"
       make-default
@@ -31,17 +34,17 @@
     <AstroidComponent
       v-for="astroid in allAstroids"
       :key="astroid.id"
-      :ref="collectAstroidRefs"
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
+      @update:component="allAstroidRefs.push({id: astroid.Id, ...$event})"
       @click="setAstroidInfo(astroid)"
     />
     <EarthComponent
-      ref="earthRef"
       v-model:rotation-earth="currentEarthRotation"
       v-model:position-earth="currentEarthPosition"
       :rotation-sun="currentSunRotation"
+      @update:component="earthRef = $event"
     />
     <Suspense>
       <SunComponent v-model:sunRotation="currentSunRotation" />
@@ -68,13 +71,15 @@ const currentSunRotation = shallowRef(0);
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAstroids = shallowRef([]);
-const allAstroidComponents = shallowRef([]);
+const allAstroidRefs = shallowRef([]);
+const currentFocus = shallowRef({
+  position: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+});
 
-const collectAstroidRefs = (el) => {
-  if (el) {
-    allAstroidComponents.value.push(el);
-  }
-};
 const earthRef = shallowRef();
 
 const setAstroidInfo = (astroid) => {
@@ -83,15 +88,26 @@ const setAstroidInfo = (astroid) => {
 
 const focusAstroid = (astroid) => {
   console.log('focus astroid:', astroid);
+  currentFocus.value = earthRef.value;
 };
 
 const controlsState = shallowRef({
   minDistance: 0,
   maxDistance: 100,
 });
+
 onMounted(async () => {
   let fetchedData = await fetchLast7Days();
   fetchedData = Object.values(fetchedData).flat();
   allAstroids.value = fetchedData.slice(0, 10);
 });
 </script>
+<style>
+/* Workaround for now */
+.list {
+  position: fixed !important;
+  top: 50% !important; /* Start from the center */
+  left: 50% !important;
+  transform: translate(-50vw, -50vh) !important;
+}
+</style>
