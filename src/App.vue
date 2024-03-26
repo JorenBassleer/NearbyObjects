@@ -6,6 +6,7 @@
     <Html
       left
       style="left: 0; top: 0;"
+      wrapper-class="list"
     >
       <section class="bg-white text-gray-600 w-72 rounded-lg">
         <h2 class="text-xl border-b px-4 py-2 ">
@@ -95,3 +96,12 @@ onMounted(async () => {
   allAstroids.value = fetchedData.slice(0, 10);
 });
 </script>
+<style>
+/* Workaround for now */
+.list {
+  position: fixed !important;
+  top: 50% !important; /* Start from the center */
+  left: 50% !important;
+  transform: translate(-50vw, -50vh) !important;
+}
+</style>
