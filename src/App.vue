@@ -37,7 +37,7 @@
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
-      @update:component="allAstroidRefs.push($event)"
+      @update:component="allAstroidRefs.push({id: astroid.Id, ...$event})"
       @click="setAstroidInfo(astroid)"
     />
     <EarthComponent
@@ -95,6 +95,7 @@ const controlsState = shallowRef({
   minDistance: 0,
   maxDistance: 100,
 });
+
 onMounted(async () => {
   let fetchedData = await fetchLast7Days();
   fetchedData = Object.values(fetchedData).flat();
