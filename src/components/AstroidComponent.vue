@@ -5,7 +5,7 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="astroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100"
+      :scale="!isFocused ? astroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100 : 0.001"
       draco
       @click="$emit('click')"
     />
@@ -13,7 +13,7 @@
   <Html
     v-if="isFocused"
     transform
-    :position="[astroidLocation.x + 5, astroidLocation.y + 5, 0]"
+    :position="[astroidLocation.x, astroidLocation.y , astroidLocation.z]"
   >
     <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
       I'm a Box 📦
@@ -63,7 +63,7 @@ const astroidLocation = shallowRef({
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
   onLoop(({ delta, elapsed }) => {
-    if (model.value) {
+    if (model.value && !props.isFocused) {
       // Get from astroid data
       const orbitRadiusX = 3;
       // Get from astroid data
