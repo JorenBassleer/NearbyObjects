@@ -12,11 +12,12 @@
         <h2 class="text-xl border-b px-4 py-2 ">
           Astroids
         </h2>
-        <section class="max-h-64 p-4 overflow-y-scroll overflow-x-hidden ">
+        <section class="max-h-60 overflow-y-scroll overflow-x-hidden ">
           <div
             v-for="astroid in allAstroids"
             :key="astroid._id"
-            class="cursor-pointer hover:text-blue-500 transition-colors duration-150"
+            class="cursor-pointer px-4 transition-all duration-300"
+            :class="currentFocus.id === astroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
             @click="focusAstroid(astroid)"
           >
             {{ astroid.name }}
