@@ -12,11 +12,12 @@
         <h2 class="text-xl border-b px-4 py-2 ">
           Astroids
         </h2>
-        <section class="max-h-64 p-4 overflow-y-scroll overflow-x-hidden ">
+        <section class="max-h-60 overflow-y-scroll overflow-x-hidden ">
           <div
             v-for="astroid in allAstroids"
             :key="astroid._id"
-            class="cursor-pointer hover:text-blue-500 transition-colors duration-150"
+            class="cursor-pointer px-4 transition-all duration-300"
+            :class="currentFocus.id === astroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
             @click="focusAstroid(astroid)"
           >
             {{ astroid.name }}
@@ -25,7 +26,8 @@
       </section>
     </Html>
     <TresPerspectiveCamera
-      :position="currentFocus !== null ? [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z] : undefined"
+      :position="35"
+      :look-at="currentFocus.position === 0 ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <CameraControls
       v-bind="controlsState"
@@ -37,8 +39,9 @@
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
-      @update:component="allAstroidRefs.push({id: astroid.Id, ...$event})"
-      @click="setAstroidInfo(astroid)"
+      :is-focused="currentFocus.id === astroid.id"
+      @update:component="allAstroidRefs.push({id: astroid.id, ...$event})"
+      @click="focusAstroid(astroid)"
     />
     <EarthComponent
       v-model:rotation-earth="currentEarthRotation"
@@ -73,6 +76,7 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAstroids = shallowRef([]);
 const allAstroidRefs = shallowRef([]);
 const currentFocus = shallowRef({
+  id: 0,
   position: {
     x: 0,
     y: 0,
@@ -82,13 +86,8 @@ const currentFocus = shallowRef({
 
 const earthRef = shallowRef();
 
-const setAstroidInfo = (astroid) => {
-  console.log('astroid data:', astroid);
-};
-
 const focusAstroid = (astroid) => {
-  console.log('focus astroid:', astroid);
-  currentFocus.value = earthRef.value;
+  currentFocus.value = allAstroidRefs.value.find((astroidRef) => astroidRef.id === astroid.id);
 };
 
 const controlsState = shallowRef({
@@ -105,8 +104,9 @@ onMounted(async () => {
 <style>
 /* Workaround for now */
 .list {
+  display: block !important;
   position: fixed !important;
-  top: 50% !important; /* Start from the center */
+  top: 50% !important;
   left: 50% !important;
   transform: translate(-50vw, -50vh) !important;
 }
