@@ -11,9 +11,9 @@
     />
   </Suspense>
   <Html
-    v-if="Object.keys(astroidLocation).length > 0 && showInfo"
+    v-if="isFocused"
     transform
-    :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z ]"
+    :position="[astroidLocation.x + 5, astroidLocation.y + 5, 0]"
   >
     <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
       I'm a Box 📦
@@ -43,6 +43,10 @@ const props = defineProps({
       x: 0, y: 0, z: 0,
     }),
   },
+  isFocused: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['click', 'update:component']);
@@ -55,7 +59,6 @@ const astroidLocation = shallowRef({
   y: 0,
   z: 0,
 });
-const showInfo = shallowRef(false);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
