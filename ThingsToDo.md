@@ -8,6 +8,7 @@
 - Transition & Zoom when astroid is clicked
 - Check of er astroids zijn die andere orbiting bodies hebben
 - rename astroid->asteroid
+- Bekijk is_sentry_object informatie
 
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
 
