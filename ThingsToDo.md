@@ -5,7 +5,9 @@
 - A list of all astroids (filter for potential hazardous/?)
 - Click on list sets camera focus to that asteroid
 - Fetch IP and show where on globe user is?
-- Maybe stop astroid from going around when it's focused -> Zoom in on it & display information
+- Transition & Zoom when astroid is clicked
+- Check of er astroids zijn die andere orbiting bodies hebben
+- rename astroid->asteroid
 
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
 
