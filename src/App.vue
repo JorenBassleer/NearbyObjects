@@ -17,7 +17,7 @@
             v-for="astroid in allAstroids"
             :key="astroid._id"
             class="cursor-pointer px-4 transition-all duration-300"
-            :class="currentFocus.id === astroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
+            :class="currentFocus?.id === astroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
             @click="focusAstroid(astroid)"
           >
             {{ astroid.name }}
@@ -27,7 +27,7 @@
     </Html>
     <TresPerspectiveCamera
       :position="35"
-      :look-at="currentFocus.position === 0 ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
+      :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <CameraControls
       v-bind="controlsState"
@@ -39,7 +39,7 @@
       :astroid="astroid"
       :rotation-earth="currentEarthRotation"
       :position-earth="currentEarthPosition"
-      :is-focused="currentFocus.id === astroid.id"
+      :is-focused="currentFocus?.id === astroid.id"
       @update:component="allAstroidRefs.push({id: astroid.id, ...$event})"
       @click="focusAstroid(astroid)"
     />
@@ -75,19 +75,13 @@ const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAstroids = shallowRef([]);
 const allAstroidRefs = shallowRef([]);
-const currentFocus = shallowRef({
-  id: 0,
-  position: {
-    x: 0,
-    y: 0,
-    z: 0,
-  },
-});
+const currentFocus = shallowRef(null);
 
 const earthRef = shallowRef();
 
 const focusAstroid = (astroid) => {
-  currentFocus.value = allAstroidRefs.value.find((astroidRef) => astroidRef.id === astroid.id);
+  if (currentFocus.value?.id === astroid.id) currentFocus.value = null;
+  else currentFocus.value = allAstroidRefs.value.find((astroidRef) => astroidRef.id === astroid.id);
 };
 
 const controlsState = shallowRef({

@@ -15,7 +15,8 @@
     transform
     :position="[astroidLocation.x, astroidLocation.y , astroidLocation.z]"
   >
-    <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
+    <h1 class="bg-white text-xs p-1 rounded">
+      Astroid {{ astroid.name }}
       I'm a Box 📦
     </h1>
   </Html>
@@ -74,8 +75,8 @@ watch(astroidRef, (model) => {
       /* eslint-disable no-param-reassign */
       model.value.rotation.y += Math.sin(delta * orbitSpeed);
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + 0.004 + props.astroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
-      model.value.position.z = props.positionEarth.z + props.astroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+      model.value.position.x = props.positionEarth.x + 0.004 + props.astroid.close_approach_data[0].miss_distance.astronomical * Math.sin(angle);
+      model.value.position.z = props.positionEarth.z + props.astroid.close_approach_data[0].miss_distance.astronomical * Math.cos(angle);
       astroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */
     }
