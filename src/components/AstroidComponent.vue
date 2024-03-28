@@ -10,15 +10,54 @@
       @click="$emit('click')"
     />
   </Suspense>
+  <!-- Maybe make component out of this -->
   <Html
     v-if="isFocused"
     transform
-    :position="[astroidLocation.x, astroidLocation.y , astroidLocation.z]"
+    :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z]"
   >
-    <h1 class="bg-white text-xs p-1 rounded">
-      Astroid {{ astroid.name }}
-      I'm a Box 📦
-    </h1>
+    <div class="bg-white text-xs p-1 rounded text-gray-700">
+      <div class="flex justify-between items-center">
+        <h1 class="font-bold">
+          ☄️ {{ astroid.name }}
+        </h1>
+        <span
+          class="font-semibold cursor-pointer p-2 hover:text-blue-500"
+          @click="$emit('unfocus')"
+        >X</span>
+      </div>
+      <small
+        class="text-blue-500 cursor-pointer hover:text-blue-400"
+        @click="showMoreInfo = !showMoreInfo"
+      >
+        Show more info (icon here ofzo)
+      </small>
+      <section v-show="showMoreInfo">
+        <div class="flex flex-col gap-2 p-2">
+          <div>
+            Diameter of
+            <span class="font-semibold">
+              {{ astroid.estimated_diameter.meters.estimated_diameter_min.toFixed(2) }}m
+            </span> -
+            <span class="font-semibold">
+              {{ astroid.estimated_diameter.meters.estimated_diameter_max.toFixed(2) }}m
+            </span>
+          </div>
+          <div>
+            Will miss earth by <span class="font-semibold">{{ parseFloat(astroid.close_approach_data[0].miss_distance.kilometers).toFixed(2) }}km</span>
+          </div>
+          <div>
+            Travelling at a speed of <span class="font-semibold">{{ parseFloat(astroid.close_approach_data[0].relative_velocity.kilometers_per_second).toFixed(2) }}km/s</span>
+          </div>
+          <div
+            class="text-white w-max p-1 rounded border"
+            :class="astroid.is_potentially_hazardous_asteroid ? 'bg-red-500 border-red-200' : 'bg-emerald-500 border-emerald-200'"
+          >
+            Is {{ astroid.is_potentially_hazardous_asteroid ? 'potentially' : 'not' }} dangerous
+          </div>
+        </div>
+      </section>
+    </div>
   </Html>
 </template>
 <script setup>
@@ -50,7 +89,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click', 'update:component']);
+const emit = defineEmits(['click', 'update:component', 'unfocus']);
 
 const { onLoop } = useRenderLoop();
 
@@ -60,6 +99,7 @@ const astroidLocation = shallowRef({
   y: 0,
   z: 0,
 });
+const showMoreInfo = shallowRef(false);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
@@ -75,7 +115,7 @@ watch(astroidRef, (model) => {
       /* eslint-disable no-param-reassign */
       model.value.rotation.y += Math.sin(delta * orbitSpeed);
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + 0.004 + props.astroid.close_approach_data[0].miss_distance.astronomical * Math.sin(angle);
+      model.value.position.x = props.positionEarth.x + props.astroid.close_approach_data[0].miss_distance.astronomical * Math.sin(angle);
       model.value.position.z = props.positionEarth.z + props.astroid.close_approach_data[0].miss_distance.astronomical * Math.cos(angle);
       astroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */

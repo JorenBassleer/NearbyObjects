@@ -9,16 +9,16 @@
       wrapper-class="list"
     >
       <section class="bg-white text-gray-600 w-72 rounded-lg">
-        <h2 class="text-xl border-b px-4 py-2 ">
+        <h2 class="text-xl border-b px-4 py-2">
           Astroids
         </h2>
-        <section class="max-h-60 overflow-y-scroll overflow-x-hidden ">
+        <section class="max-h-60 overflow-y-scroll overflow-x-hidden">
           <div
             v-for="astroid in allAstroids"
             :key="astroid._id"
             class="cursor-pointer px-4 transition-all duration-300"
             :class="currentFocus?.id === astroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
-            @click="focusAstroid(astroid)"
+            @click="toggleFocus(astroid)"
           >
             {{ astroid.name }}
           </div>
@@ -41,7 +41,8 @@
       :position-earth="currentEarthPosition"
       :is-focused="currentFocus?.id === astroid.id"
       @update:component="allAstroidRefs.push({id: astroid.id, ...$event})"
-      @click="focusAstroid(astroid)"
+      @click="toggleFocus(astroid)"
+      @unfocus="toggleFocus(astroid)"
     />
     <EarthComponent
       v-model:rotation-earth="currentEarthRotation"
@@ -79,7 +80,7 @@ const currentFocus = shallowRef(null);
 
 const earthRef = shallowRef();
 
-const focusAstroid = (astroid) => {
+const toggleFocus = (astroid) => {
   if (currentFocus.value?.id === astroid.id) currentFocus.value = null;
   else currentFocus.value = allAstroidRefs.value.find((astroidRef) => astroidRef.id === astroid.id);
 };
