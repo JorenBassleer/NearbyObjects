@@ -1,11 +1,13 @@
 # To Do
 
 ## HTML
-- Clicking an astroid/planet displays information about it 
-- A list of all astroids (filter for potential hazardous/?)
-- Click on list sets camera focus to that asteroid
+- Clicking an planet displays information about it 
+- filter for potential hazardous?
 - Fetch IP and show where on globe user is?
-- Maybe stop astroid from going around when it's focused -> Zoom in on it & display information
+- Transition & Zoom when astroid is clicked
+- Check of er astroids zijn die andere orbiting bodies hebben
+- rename astroid->asteroid
+- Bekijk is_sentry_object informatie
 
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
 
