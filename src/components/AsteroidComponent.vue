@@ -21,7 +21,7 @@
       </h1>
       <span
         class="font-semibold cursor-pointer p-2 hover:text-blue-500"
-        @click="$emit('unfocus')"
+        @click="$emit('onUnfocus')"
       >X</span>
     </div>
     <small
@@ -87,7 +87,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click', 'update:component', 'unfocus']);
+const emit = defineEmits(['click', 'update:component', 'onUnfocus']);
 
 const { onLoop } = useRenderLoop();
 

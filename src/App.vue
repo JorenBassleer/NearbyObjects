@@ -25,7 +25,7 @@
       :is-focused="currentFocus?.id === asteroid.id"
       @update:component="allAsteroidRefs.push({id: asteroid.id, ...$event})"
       @click="toggleFocus(asteroid)"
-      @unfocus="toggleFocus(asteroid)"
+      @on-unfocus="toggleFocus(asteroid)"
     />
     <EarthComponent
       v-model:rotation-earth="currentEarthRotation"

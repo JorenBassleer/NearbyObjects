@@ -1,6 +1,5 @@
 <template>
   <Html
-    left
     wrapper-class="list"
   >
     <section class="bg-white text-gray-600 w-72 rounded-lg">
