@@ -3,27 +3,11 @@
     window-size
     shadows
   >
-    <Html
-      left
-      wrapper-class="list"
-    >
-      <section class="bg-white text-gray-600 w-72 rounded-lg">
-        <h2 class="text-xl border-b px-4 py-2">
-          Asteroids
-        </h2>
-        <section class="max-h-60 overflow-y-scroll overflow-x-hidden">
-          <div
-            v-for="asteroid in allAsteroids"
-            :key="asteroid._id"
-            class="cursor-pointer px-4 transition-all duration-300"
-            :class="currentFocus?.id === asteroid.id ? 'text-white bg-blue-500 hover:bg-blue-100 hover:text-blue-500' : 'hover:text-white hover:bg-blue-500'"
-            @click="toggleFocus(asteroid)"
-          >
-            {{ asteroid.name }}
-          </div>
-        </section>
-      </section>
-    </Html>
+    <AsteroidNavigation
+      :asteroids="allAsteroids"
+      :is-focused="false"
+      @on-focus="toggleFocus(astroid)"
+    />
     <TresPerspectiveCamera
       :position="35"
       :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
@@ -64,10 +48,11 @@ import {
 } from 'vue';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { CameraControls, Stars, Html } from '@tresjs/cientos';
+import { CameraControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
+import AsteroidNavigation from './components/AsteroidNavigation.vue';
 import { fetchLast7Days } from './api/asteroid';
 
 const currentSunRotation = shallowRef(0);
@@ -95,13 +80,3 @@ onMounted(async () => {
   allAsteroids.value = fetchedData.slice(0, 10);
 });
 </script>
-<style>
-/* Workaround for now */
-.list {
-  display: block !important;
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50vw, -50vh) !important;
-}
-</style>
