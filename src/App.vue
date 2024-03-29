@@ -5,12 +5,11 @@
   >
     <Html
       left
-      style="left: 0; top: 0;"
       wrapper-class="list"
     >
       <section class="bg-white text-gray-600 w-72 rounded-lg">
         <h2 class="text-xl border-b px-4 py-2">
-          Astroids
+          Asteroids
         </h2>
         <section class="max-h-60 overflow-y-scroll overflow-x-hidden">
           <div

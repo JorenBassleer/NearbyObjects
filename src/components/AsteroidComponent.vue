@@ -11,54 +11,51 @@
     />
   </Suspense>
   <!-- Maybe make component out of this -->
-  <Html
+  <InformationPanel
     v-if="isFocused"
-    transform
     :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z]"
   >
-    <div class="bg-white text-xs p-1 rounded text-gray-700">
-      <div class="flex justify-between items-center">
-        <h1 class="font-bold">
-          ☄️ {{ asteroid.name }}
-        </h1>
-        <span
-          class="font-semibold cursor-pointer p-2 hover:text-blue-500"
-          @click="$emit('unfocus')"
-        >X</span>
-      </div>
-      <small
-        class="text-blue-500 cursor-pointer hover:text-blue-400"
-        @click="showMoreInfo = !showMoreInfo"
-      >
-        Show more info (icon here ofzo)
-      </small>
-      <section v-show="showMoreInfo">
-        <div class="flex flex-col gap-2 p-2">
-          <div>
-            Diameter of
-            <span class="font-semibold">
-              {{ asteroid.estimated_diameter.meters.estimated_diameter_min.toFixed(2) }}m
-            </span> -
-            <span class="font-semibold">
-              {{ asteroid.estimated_diameter.meters.estimated_diameter_max.toFixed(2) }}m
-            </span>
-          </div>
-          <div>
-            Will miss earth by <span class="font-semibold">{{ parseFloat(asteroid.close_approach_data[0].miss_distance.kilometers).toFixed(2) }}km</span>
-          </div>
-          <div>
-            Travelling at a speed of <span class="font-semibold">{{ parseFloat(asteroid.close_approach_data[0].relative_velocity.kilometers_per_second).toFixed(2) }}km/s</span>
-          </div>
-          <div
-            class="text-white w-max p-1 rounded border"
-            :class="asteroid.is_potentially_hazardous_asteroid ? 'bg-red-500 border-red-200' : 'bg-emerald-500 border-emerald-200'"
-          >
-            Is {{ asteroid.is_potentially_hazardous_asteroid ? 'potentially' : 'not' }} dangerous
-          </div>
-        </div>
-      </section>
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold">
+        ☄️ {{ asteroid.name }}
+      </h1>
+      <span
+        class="font-semibold cursor-pointer p-2 hover:text-blue-500"
+        @click="$emit('unfocus')"
+      >X</span>
     </div>
-  </Html>
+    <small
+      class="text-blue-500 cursor-pointer hover:text-blue-400"
+      @click="showMoreInfo = !showMoreInfo"
+    >
+      Show more info (icon here ofzo)
+    </small>
+    <section v-show="showMoreInfo">
+      <div class="flex flex-col gap-2 p-2">
+        <div>
+          Diameter of
+          <span class="font-semibold">
+            {{ asteroid.estimated_diameter.meters.estimated_diameter_min.toFixed(2) }}m
+          </span> -
+          <span class="font-semibold">
+            {{ asteroid.estimated_diameter.meters.estimated_diameter_max.toFixed(2) }}m
+          </span>
+        </div>
+        <div>
+          Will miss earth by <span class="font-semibold">{{ parseFloat(asteroid.close_approach_data[0].miss_distance.kilometers).toFixed(2) }}km</span>
+        </div>
+        <div>
+          Travelling at a speed of <span class="font-semibold">{{ parseFloat(asteroid.close_approach_data[0].relative_velocity.kilometers_per_second).toFixed(2) }}km/s</span>
+        </div>
+        <div
+          class="text-white w-max p-1 rounded border"
+          :class="asteroid.is_potentially_hazardous_asteroid ? 'bg-red-500 border-red-200' : 'bg-emerald-500 border-emerald-200'"
+        >
+          Is {{ asteroid.is_potentially_hazardous_asteroid ? 'potentially' : 'not' }} dangerous
+        </div>
+      </div>
+    </section>
+  </InformationPanel>
 </template>
 <script setup>
 import {
@@ -66,7 +63,8 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
-import { GLTFModel, Html } from '@tresjs/cientos';
+import { GLTFModel } from '@tresjs/cientos';
+import InformationPanel from './InformationPanel.vue';
 
 const props = defineProps({
   asteroid: {
