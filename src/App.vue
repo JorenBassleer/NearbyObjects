@@ -39,6 +39,7 @@
     <Suspense>
       <Stars :rotation="[0, currentSunRotation, 0]" />
     </Suspense>
+    <TresAmbientLight :intensity="10" />
   </TresCanvas>
 </template>
 

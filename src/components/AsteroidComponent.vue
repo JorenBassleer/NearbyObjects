@@ -15,6 +15,7 @@
     v-if="isFocused"
     :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z]"
   >
+  astroid location: {{ astroidLocation.x }} {{ astroidLocation.y }} {{ astroidLocation.z }}
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
         ☄️ {{ asteroid.name }}
@@ -93,8 +94,8 @@ watch(astroidRef, (model) => {
       /* eslint-disable no-param-reassign */
       model.value.rotation.y += Math.sin(delta * orbitSpeed);
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.astronomical * Math.sin(angle);
-      model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.astronomical * Math.cos(angle);
+      model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
+      model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
       astroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */
     }
