@@ -39,7 +39,7 @@
     <Suspense>
       <Stars :rotation="[0, currentSunRotation, 0]" />
     </Suspense>
-    <TresAmbientLight :intensity="10" />
+    <TresAmbientLight :intensity="2.5" />
   </TresCanvas>
 </template>
 
@@ -72,7 +72,7 @@ const toggleFocus = (asteroid) => {
 
 const controlsState = shallowRef({
   minDistance: 0,
-  maxDistance: 100,
+  maxDistance: 500,
 });
 
 onMounted(async () => {
