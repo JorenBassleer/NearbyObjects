@@ -5,8 +5,8 @@
   >
     <AsteroidNavigation
       :asteroids="allAsteroids"
-      :is-focused="false"
-      @on-focus="toggleFocus(astroid)"
+      :current-focus="currentFocus"
+      @on-focus="toggleFocus($event)"
     />
     <TresPerspectiveCamera
       :position="35"
