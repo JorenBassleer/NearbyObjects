@@ -103,7 +103,6 @@ const animateCameraPosition = (newPosition, duration = 2) => {
 };
 
 const toggleFocus = (asteroid) => {
-  console.log('currentZoom', currentZoom.value);
   if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
   else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
