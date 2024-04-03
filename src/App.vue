@@ -11,7 +11,6 @@
     <TresPerspectiveCamera
       :position="!currentFocus ? 35 : [currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
-      :zoom="currentZoom"
     />
     <CameraControls
       v-bind="controlsState"
@@ -64,7 +63,6 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
 const currentFocus = shallowRef(null);
-const currentZoom = shallowRef(1);
 
 const earthRef = shallowRef();
 
@@ -74,11 +72,13 @@ const controlsState = shallowRef({
 });
 
 const animateZoom = () => {
-  console.log('animateZoom');
-  gsap.to(currentZoom, {
-    duration: 1.5,
-    value: 10,
-  });
+  // gsap.to(currentZoom, {
+  //   duration: 1.5,
+  //   value: 100,
+  //   onUpdate: () => {
+  //     console.log('currentZoom', currentZoom.value);
+  //   }
+  // });
 };
 
 const animateCameraPosition = (newPosition, duration = 2) => {
@@ -103,6 +103,7 @@ const animateCameraPosition = (newPosition, duration = 2) => {
 };
 
 const toggleFocus = (asteroid) => {
+  console.log('currentZoom', currentZoom.value);
   if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
   else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
