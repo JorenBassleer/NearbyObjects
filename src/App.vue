@@ -11,6 +11,7 @@
     <TresPerspectiveCamera
       :position="!currentFocus ? 35 : [currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
+      :zoom="currentZoom"
     />
     <CameraControls
       v-bind="controlsState"
@@ -63,6 +64,7 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
 const currentFocus = shallowRef(null);
+const currentZoom = shallowRef(1);
 
 const earthRef = shallowRef();
 
@@ -71,8 +73,15 @@ const controlsState = shallowRef({
   maxDistance: 500,
 });
 
+const animateZoom = () => {
+  console.log('animateZoom');
+  gsap.to(currentZoom, {
+    duration: 1.5,
+    value: 10,
+  });
+};
+
 const animateCameraPosition = (newPosition, duration = 2) => {
-  console.log('currentFocus.value', currentFocus.value);
   currentFocus.value = {
     ...currentFocus.value,
     position: !currentFocus.value?.position ? {
@@ -82,14 +91,13 @@ const animateCameraPosition = (newPosition, duration = 2) => {
     } : currentFocus.value.position,
   };
   gsap.to(currentFocus.value.position, {
-    duration, // Duration in seconds
+    duration,
     x: newPosition.x + 10,
     y: newPosition.y + 10,
     z: newPosition.z + 10,
-    onUpdate: () => {
-      console.log('onUpdate', currentFocus.value.position);
-      // This callback function will be called on every tick of the animation.
-      // Here you might need to explicitly update the position of the camera if it's not reactive.
+    ease: 'power3.out',
+    onComplete: () => {
+      animateZoom();
     },
   });
 };
@@ -102,7 +110,7 @@ const toggleFocus = (asteroid) => {
       ...currentFocus.value,
       id: foundAsteroid.id,
     };
-    animateCameraPosition(foundAsteroid.position, 2);
+    animateCameraPosition(foundAsteroid.position);
   }
 };
 
