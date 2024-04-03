@@ -9,7 +9,7 @@
       @on-focus="toggleFocus($event)"
     />
     <TresPerspectiveCamera
-      :position="35"
+      :position="!currentFocus ? 35 : [currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <CameraControls
@@ -47,6 +47,7 @@
 import {
   shallowRef, onMounted,
 } from 'vue';
+import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { CameraControls, Stars } from '@tresjs/cientos';
@@ -65,15 +66,53 @@ const currentFocus = shallowRef(null);
 
 const earthRef = shallowRef();
 
-const toggleFocus = (asteroid) => {
-  if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
-  else currentFocus.value = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
-};
-
 const controlsState = shallowRef({
   minDistance: 0,
   maxDistance: 500,
 });
+
+const animateZoom = () => {
+  // gsap.to(currentZoom, {
+  //   duration: 1.5,
+  //   value: 100,
+  //   onUpdate: () => {
+  //     console.log('currentZoom', currentZoom.value);
+  //   }
+  // });
+};
+
+const animateCameraPosition = (newPosition, duration = 2) => {
+  currentFocus.value = {
+    ...currentFocus.value,
+    position: !currentFocus.value?.position ? {
+      x: 0,
+      y: 0,
+      z: 0,
+    } : currentFocus.value.position,
+  };
+  gsap.to(currentFocus.value.position, {
+    duration,
+    x: newPosition.x + 10,
+    y: newPosition.y + 10,
+    z: newPosition.z + 10,
+    ease: 'power3.out',
+    onComplete: () => {
+      animateZoom();
+    },
+  });
+};
+
+const toggleFocus = (asteroid) => {
+  if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
+  else {
+    const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
+    currentFocus.value = {
+      ...currentFocus.value,
+      id: foundAsteroid.id,
+    };
+    animateCameraPosition(foundAsteroid.position);
+  }
+};
 
 onMounted(async () => {
   let fetchedData = await fetchLast7Days();

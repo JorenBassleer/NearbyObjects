@@ -15,7 +15,6 @@
     v-if="isFocused"
     :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z]"
   >
-  astroid location: {{ astroidLocation.x }} {{ astroidLocation.y }} {{ astroidLocation.z }}
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
         ☄️ {{ asteroid.name }}
