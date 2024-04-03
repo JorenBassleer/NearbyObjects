@@ -9,7 +9,7 @@
       @on-focus="toggleFocus($event)"
     />
     <TresPerspectiveCamera
-      :position="35"
+      :position="!currentFocus ? 35 : [currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <CameraControls
