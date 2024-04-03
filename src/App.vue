@@ -47,6 +47,7 @@
 import {
   shallowRef, onMounted,
 } from 'vue';
+import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { CameraControls, Stars } from '@tresjs/cientos';
@@ -65,15 +66,45 @@ const currentFocus = shallowRef(null);
 
 const earthRef = shallowRef();
 
-const toggleFocus = (asteroid) => {
-  if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
-  else currentFocus.value = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
-};
-
 const controlsState = shallowRef({
   minDistance: 0,
   maxDistance: 500,
 });
+
+const animateCameraPosition = (newPosition, duration = 2) => {
+  console.log('currentFocus.value', currentFocus.value);
+  currentFocus.value = {
+    ...currentFocus.value,
+    position: !currentFocus.value?.position ? {
+      x: 0,
+      y: 0,
+      z: 0,
+    } : currentFocus.value.position,
+  };
+  gsap.to(currentFocus.value.position, {
+    duration, // Duration in seconds
+    x: newPosition.x + 10,
+    y: newPosition.y + 10,
+    z: newPosition.z + 10,
+    onUpdate: () => {
+      console.log('onUpdate', currentFocus.value.position);
+      // This callback function will be called on every tick of the animation.
+      // Here you might need to explicitly update the position of the camera if it's not reactive.
+    },
+  });
+};
+
+const toggleFocus = (asteroid) => {
+  if (currentFocus.value?.id === asteroid.id) currentFocus.value = null;
+  else {
+    const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
+    currentFocus.value = {
+      ...currentFocus.value,
+      id: foundAsteroid.id,
+    };
+    animateCameraPosition(foundAsteroid.position, 2);
+  }
+};
 
 onMounted(async () => {
   let fetchedData = await fetchLast7Days();
