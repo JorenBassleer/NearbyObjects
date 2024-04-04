@@ -100,4 +100,11 @@ watch(astroidRef, (model) => {
     }
   });
 });
+
+watch(
+  () => props.isFocused,
+  (v) => {
+    console.log('isFocused update', v);
+  },
+);
 </script>
