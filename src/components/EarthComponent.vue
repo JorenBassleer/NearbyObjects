@@ -7,7 +7,6 @@
       cast-shadow
       :scale="0.005"
       draco
-      @click="onClick"
     />
   </Suspense>
   <Html
@@ -56,12 +55,6 @@ const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
 const showInfo = shallowRef(false);
-
-const onClick = (v) => {
-  showInfo.value = true;
-  // emit for camera to focus earth
-  console.log('clickedEarth:', v);
-};
 
 watch(earthRef, (model) => {
   emit('update:component', model.value);

@@ -24,7 +24,6 @@
       :position-earth="currentEarthPosition"
       :is-focused="currentFocus?.id === asteroid.id"
       @update:component="allAsteroidRefs.push({id: asteroid.id, ...$event})"
-      @click="toggleFocus(asteroid)"
       @on-unfocus="toggleFocus(asteroid)"
     />
     <EarthComponent
