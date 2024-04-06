@@ -14,6 +14,7 @@
     v-if="isFocused"
     :position="[asteroidLocation.x, asteroidLocation.y, asteroidLocation.z]"
   >
+    {{ asteroidLocation.x }} {{ asteroidLocation.y }} {{ asteroidLocation.z }}
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
         ☄️ {{ asteroid.name }}
@@ -27,7 +28,7 @@
       class="text-blue-500 cursor-pointer hover:text-blue-400"
       @click="showMoreInfo = !showMoreInfo"
     >
-      Show more info (icon here ofzo)
+      Show more info
     </small>
     <AsteroidExtraInfo
       v-show="showMoreInfo"
@@ -81,19 +82,21 @@ const showMoreInfo = shallowRef(false);
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
   onLoop(({ delta, elapsed }) => {
-    if (model.value && !props.isFocused) {
-      // Get from asteroid data
-      const orbitRadiusX = 3;
-      // Get from asteroid data
-      const orbitRadiusZ = 3;
-      const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
-      // Make a composable out of this calculation
-      const angle = (props.rotationEarth + elapsed) * orbitSpeed;
-      /* eslint-disable no-param-reassign */
-      model.value.rotation.y += Math.sin(delta * orbitSpeed);
-      model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
-      model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+    if (model.value) {
+      if (!props.isFocused) {
+        // Get from asteroid data
+        const orbitRadiusX = 3;
+        // Get from asteroid data
+        const orbitRadiusZ = 3;
+        const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
+        // Make a composable out of this calculation
+        const angle = (props.rotationEarth + elapsed) * orbitSpeed;
+        /* eslint-disable no-param-reassign */
+        model.value.rotation.y += Math.sin(delta * orbitSpeed);
+        model.value.rotation.z += Math.sin(delta * orbitSpeed);
+        model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
+        model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+      }
       asteroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */
     }
@@ -103,7 +106,7 @@ watch(astroidRef, (model) => {
 watch(
   () => props.isFocused,
   (v) => {
-    // console.log('isFocused update', v);
+    console.log('isFocused update', asteroidLocation.value.x, asteroidLocation.value.y, asteroidLocation.value.z);
   },
 );
 </script>
