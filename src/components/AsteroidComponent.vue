@@ -13,7 +13,7 @@
   <!-- Maybe make component out of this -->
   <InformationPanel
     v-if="isFocused"
-    :position="[astroidLocation.x, astroidLocation.y, astroidLocation.z]"
+    :position="[asteroidLocation.x, asteroidLocation.y, asteroidLocation.z]"
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
@@ -72,7 +72,7 @@ const emit = defineEmits(['click', 'update:component', 'onUnfocus']);
 const { onLoop } = useRenderLoop();
 
 const astroidRef = shallowRef(null);
-const astroidLocation = shallowRef({
+const asteroidLocation = shallowRef({
   x: 0,
   y: 0,
   z: 0,
@@ -95,7 +95,7 @@ watch(astroidRef, (model) => {
       model.value.rotation.z += Math.sin(delta * orbitSpeed);
       model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
       model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
-      astroidLocation.value = model.value.position;
+      asteroidLocation.value = model.value.position;
       /* eslint-enable no-param-reassign */
     }
   });
