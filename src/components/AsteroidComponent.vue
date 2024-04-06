@@ -7,7 +7,6 @@
       receive-shadow
       :scale="!isFocused ? asteroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100 : 0.001"
       draco
-      @click="$emit('click')"
     />
   </Suspense>
   <!-- Maybe make component out of this -->
@@ -67,7 +66,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click', 'update:component', 'onUnfocus']);
+const emit = defineEmits(['update:component', 'onUnfocus']);
 
 const { onLoop } = useRenderLoop();
 
