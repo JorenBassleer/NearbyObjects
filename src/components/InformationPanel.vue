@@ -1,10 +1,9 @@
 <template>
   <Html
     :position="position"
-    transform
     sprite
   >
-    <div class="bg-white text-xs p-1 rounded text-gray-700">
+    <div class="bg-white text-xs p-1 rounded text-gray-700 w-64">
       <slot />
     </div>
   </Html>

@@ -14,7 +14,6 @@
     />
     <CameraControls
       v-bind="controlsState"
-      make-default
     />
     <AsteroidComponent
       v-for="asteroid in allAsteroids"
@@ -96,7 +95,7 @@ const animateCameraPosition = (newPosition, duration = 2) => {
     z: newPosition.z + 10,
     ease: 'power3.out',
     onComplete: () => {
-      animateZoom();
+      // animateZoom();
     },
   });
 };
