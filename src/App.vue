@@ -61,7 +61,6 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
 const currentFocus = shallowRef(null);
-const cameraIsDoneAnimating = shallowRef(false);
 
 const earthRef = shallowRef();
 
@@ -97,13 +96,11 @@ const animateCameraPosition = (newPosition, duration = 2) => {
     ease: 'power3.out',
     onComplete: () => {
       // animateZoom();
-      cameraIsDoneAnimating.value = true;
     },
   });
 };
 
 const toggleFocus = (asteroid) => {
-  cameraIsDoneAnimating.value = false;
   if (currentFocus.value?.id === asteroid.id) {
     currentFocus.value.id = null;
     animateCameraPosition({ x: 0, y: 0, z: 0 });
