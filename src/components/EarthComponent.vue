@@ -9,24 +9,13 @@
       draco
     />
   </Suspense>
-  <Html
-    v-if="earthRef && showInfo"
-    center
-    transform
-    :position="[positionEarth.x, positionEarth.y + 3, positionEarth.z]"
-    :scale="0.5"
-  >
-    <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">
-      I'm a Box 📦
-    </h1>
-  </Html>
 </template>
 <script setup>
 import {
   shallowRef, watch, defineModel, defineProps, defineEmits,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
-import { GLTFModel, Html } from '@tresjs/cientos';
+import { GLTFModel } from '@tresjs/cientos';
 
 const rotationEarth = defineModel('rotationEarth', {
   type: Number,
@@ -54,13 +43,12 @@ const emit = defineEmits(['update:component']);
 const { onLoop } = useRenderLoop();
 
 const earthRef = shallowRef();
-const showInfo = shallowRef(false);
 
 watch(earthRef, (model) => {
   emit('update:component', model.value);
   onLoop(({ delta, elapsed }) => {
     /* eslint-disable no-param-reassign */
-    model.value.rotation.y += (delta - 0.0001);
+    model.value.rotation.y += (delta - 0.01);
     rotationEarth.value = model.value.rotation.y;
 
     // Get from astroid data

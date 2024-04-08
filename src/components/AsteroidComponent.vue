@@ -14,7 +14,6 @@
     v-if="isFocused"
     :position="[asteroidLocation.x, asteroidLocation.y, asteroidLocation.z]"
   >
-    {{ asteroidLocation.x }} {{ asteroidLocation.y }} {{ asteroidLocation.z }}
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
         ☄️ {{ asteroid.name }}
