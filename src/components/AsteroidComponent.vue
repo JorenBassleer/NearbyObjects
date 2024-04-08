@@ -116,7 +116,7 @@ watch(
   () => props.isFocused,
   (v) => {
     if (!v) updateSpeedModifier();
-    console.log('isFocused update', asteroidLocation.value.x, asteroidLocation.value.y, asteroidLocation.value.z);
+    // console.log('isFocused update', asteroidLocation.value.x, asteroidLocation.value.y, asteroidLocation.value.z);
   },
 );
 
