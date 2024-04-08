@@ -119,4 +119,5 @@ onMounted(async () => {
   fetchedData = Object.values(fetchedData).flat();
   allAsteroids.value = fetchedData.slice(0, 10);
 });
+
 </script>
