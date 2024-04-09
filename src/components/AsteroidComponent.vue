@@ -5,11 +5,10 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="!isFocused ? asteroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100 : 0.001"
+      :scale="asteroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100"
       draco
     />
   </Suspense>
-  <!-- Maybe make component out of this -->
   <InformationPanel
     v-if="isFocused"
     :position="[asteroidLocation.x, asteroidLocation.y, asteroidLocation.z]"
@@ -41,7 +40,6 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { useRenderLoop } from '@tresjs/core';
-// eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
 import InformationPanel from './InformationPanel.vue';
 import AsteroidExtraInfo from './AsteroidExtraInfo.vue';
@@ -80,14 +78,14 @@ const asteroidLocation = ref({
 const showMoreInfo = shallowRef(false);
 const speedModifier = shallowRef(1);
 
-const updateSpeedModifier = () => {
-  gsap.fromTo(speedModifier, {
-    value: 0,
-  }, {
-    duration: 2,
-    value: 1,
-  });
-};
+// const updateSpeedModifier = () => {
+//   gsap.fromTo(speedModifier, {
+//     value: 0,
+//   }, {
+//     duration: 2,
+//     value: 1,
+//   });
+// };
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
@@ -114,7 +112,7 @@ watch(astroidRef, (model) => {
 watch(
   () => props.isFocused,
   (v) => {
-    if (!v) updateSpeedModifier();
+    // if (!v) updateSpeedModifier();
     // console.log('isFocused update', asteroidLocation.value.x, asteroidLocation.value.y, asteroidLocation.value.z);
   },
 );

@@ -1,11 +1,13 @@
 # To Do
 
-## HTML
 - filter for potential hazardous?
-- Zoom when astroid is clicked
-- Check of er astroids zijn die andere orbiting bodies hebben
-- Bekijk is_sentry_object informatie
-- Kleine glow op information panels
+- Zoom after camera movement astroid
+- Asteroid with other orbiting bodies?
+- is_sentry_object?
+- Glow on information panels
+- Animate size on focus?
+- Loader state
+- Better phone controls
 
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
 

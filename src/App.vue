@@ -9,8 +9,8 @@
       @on-focus="toggleFocus($event)"
     />
     <TresPerspectiveCamera
-      :position="!currentFocus ? 35 : [currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
-      :look-at="!currentFocus ? 0 : [currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
+      :position="[currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
+      :look-at="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <CameraControls
       v-bind="controlsState"
@@ -43,11 +43,10 @@
 
 <script setup>
 import {
-  shallowRef, onMounted,
+  shallowRef, onMounted, ref,
 } from 'vue';
 import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
-// eslint-disable-next-line import/no-unresolved
 import { CameraControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';
@@ -60,7 +59,14 @@ const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
-const currentFocus = shallowRef(null);
+const currentFocus = ref({
+  id: '0',
+  position: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+});
 
 const earthRef = shallowRef();
 
@@ -69,25 +75,17 @@ const controlsState = shallowRef({
   maxDistance: 500,
 });
 
-const animateZoom = () => {
-  // gsap.to(currentZoom, {
-  //   duration: 1.5,
-  //   value: 100,
-  //   onUpdate: () => {
-  //     console.log('currentZoom', currentZoom.value);
-  //   }
-  // });
-};
+// const animateZoom = () => {
+// gsap.to(currentZoom, {
+//   duration: 1.5,
+//   value: 100,
+//   onUpdate: () => {
+//     console.log('currentZoom', currentZoom.value);
+//   }
+// });
+// };
 
 const animateCameraPosition = (newPosition, duration = 2) => {
-  currentFocus.value = {
-    ...currentFocus.value,
-    position: !currentFocus.value?.position ? {
-      x: 0,
-      y: 0,
-      z: 0,
-    } : currentFocus.value.position,
-  };
   gsap.to(currentFocus.value.position, {
     duration,
     x: newPosition.x + 10,
@@ -102,22 +100,18 @@ const animateCameraPosition = (newPosition, duration = 2) => {
 
 const toggleFocus = (asteroid) => {
   if (currentFocus.value?.id === asteroid.id) {
-    currentFocus.value.id = null;
+    currentFocus.value.id = '0';
     animateCameraPosition({ x: 0, y: 0, z: 0 });
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
-    currentFocus.value = {
-      ...currentFocus.value,
-      id: foundAsteroid.id,
-    };
+    currentFocus.value.id = foundAsteroid.id;
     animateCameraPosition(foundAsteroid.position);
   }
 };
 
 onMounted(async () => {
-  let fetchedData = await fetchLast7Days();
-  fetchedData = Object.values(fetchedData).flat();
-  allAsteroids.value = fetchedData.slice(0, 10);
+  const fetchedData = await fetchLast7Days();
+  allAsteroids.value = Object.values(fetchedData).flat();
 });
 
 </script>
