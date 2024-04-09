@@ -47,7 +47,6 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
-// eslint-disable-next-line import/no-unresolved
 import { CameraControls, Stars } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';

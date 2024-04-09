@@ -20,7 +20,6 @@
 </template>
 <script setup>
 import { defineProps, defineEmits } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { Html } from '@tresjs/cientos';
 
 defineProps({

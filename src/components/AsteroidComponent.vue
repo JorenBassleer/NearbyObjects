@@ -41,7 +41,6 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { useRenderLoop } from '@tresjs/core';
-// eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
 import InformationPanel from './InformationPanel.vue';
 import AsteroidExtraInfo from './AsteroidExtraInfo.vue';
