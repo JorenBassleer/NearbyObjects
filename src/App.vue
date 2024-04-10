@@ -70,10 +70,10 @@ const currentFocus = ref({
 
 const earthRef = shallowRef();
 
-const controlsState = shallowRef({
-  minDistance: 0,
-  maxDistance: 500,
-});
+// const controlsState = shallowRef({
+//   minDistance: 0,
+//   maxDistance: 500,
+// });
 
 // const animateZoom = () => {
 // gsap.to(currentZoom, {

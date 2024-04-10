@@ -1,7 +1,19 @@
 <template>
-  <div>
-    {{ progress }}
-  </div>
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-1000"
+    leave-active-class="opacity-0 transition-opacity duration-1000 delay-1000"
+  >
+    <div
+      v-show="!hasFinishedLoading"
+      class="fixed bg-[#00040C] inset-0 size-full text-center flex flex-col justify-center items-center z-[80]"
+    >
+      <div
+        class="max-w-xl"
+        :style="fillerStyles"
+      />
+    </div>
+  </Transition>
 </template>
 <script setup>
 import { watch } from 'vue';

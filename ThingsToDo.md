@@ -8,7 +8,6 @@
 - Animate size on focus?
 - Loader state
 - Better phone controls
-
+- Place CameraControls back & fix
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
-
-- [Project example](https://gitee.com/ice-gl/icegl-three-vue-tres/blob/master/src/plugins/UIdemo/pages/divIllustrate.vue)
+- [Project example](https://gitee.com/ice-gl/icegl-three-vue-tres/blob/master/src/plugins/UIdemo/pages/divIllustrate.vue)p

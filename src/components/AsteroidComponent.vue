@@ -13,9 +13,7 @@
   <InformationPanel
     v-if="isFocused"
     :position="showMoreInfo ?
-      [asteroidLocation.x, asteroidLocation.y + 8, asteroidLocation.z + 3]
-      :[asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z + 3]
-    "
+      [asteroidLocation.x, asteroidLocation.y + 8, asteroidLocation.z + 3] : [asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z + 3]"
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
@@ -27,7 +25,7 @@
       >X</span>
     </div>
     <small
-      class="text-blue-500 cursor-pointer hover:text-blue-400"
+      class="text-blue-500 cursor-pointer hover:text-blue-400 select-none"
       @click="showMoreInfo = !showMoreInfo"
     >
       Show more info
@@ -109,7 +107,7 @@ watch(astroidRef, (model) => {
       model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
       model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
     }
-    asteroidLocation.value = model.value.position;
+    asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
     /* eslint-enable no-param-reassign */
   });
 });
