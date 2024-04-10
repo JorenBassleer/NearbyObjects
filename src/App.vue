@@ -1,4 +1,7 @@
 <template>
+  <Suspense>
+    <LoaderSlider />
+  </Suspense>
   <TresCanvas
     window-size
     shadows
@@ -12,9 +15,9 @@
       :position="[currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
-    <CameraControls
-      v-bind="controlsState"
-    />
+    <!-- <CameraControls
+        v-bind="controlsState"
+      /> -->
     <AsteroidComponent
       v-for="asteroid in allAsteroids"
       :key="asteroid.id"
@@ -31,12 +34,11 @@
       :rotation-sun="currentSunRotation"
       @update:component="earthRef = $event"
     />
-    <Suspense>
-      <SunComponent v-model:sunRotation="currentSunRotation" />
-    </Suspense>
-    <Suspense>
-      <Stars :rotation="[0, currentSunRotation, 0]" />
-    </Suspense>
+
+    <SunComponent v-model:sunRotation="currentSunRotation" />
+
+    <StarsBackground :current-sun-rotation="currentSunRotation" />
+
     <TresAmbientLight :intensity="2.5" />
   </TresCanvas>
 </template>
@@ -47,18 +49,24 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
-import { CameraControls, Stars } from '@tresjs/cientos';
+import { CameraControls } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
 import AsteroidNavigation from './components/AsteroidNavigation.vue';
+import StarsBackground from './components/StarsBackground.vue';
+import LoaderSlider from './components/LoaderSlider.vue';
 import { fetchLast7Days } from './api/asteroid';
 
 const currentSunRotation = shallowRef(0);
+
+const earthRef = shallowRef();
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
+
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
+
 const currentFocus = ref({
   id: '0',
   position: {
@@ -68,12 +76,12 @@ const currentFocus = ref({
   },
 });
 
-const earthRef = shallowRef();
+const hasFinishedLoading = ref(false);
 
-const controlsState = shallowRef({
-  minDistance: 0,
-  maxDistance: 500,
-});
+// const controlsState = shallowRef({
+//   minDistance: 0,
+//   maxDistance: 500,
+// });
 
 // const animateZoom = () => {
 // gsap.to(currentZoom, {
@@ -113,5 +121,4 @@ onMounted(async () => {
   const fetchedData = await fetchLast7Days();
   allAsteroids.value = Object.values(fetchedData).flat();
 });
-
 </script>
