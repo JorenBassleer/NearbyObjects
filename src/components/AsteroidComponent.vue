@@ -5,10 +5,11 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="asteroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100"
+      :scale="!isFocused ? asteroid?.estimated_diameter?.kilometers?.estimated_diameter_min / 100 : 0.001"
       draco
     />
   </Suspense>
+  <!-- Maybe make component out of this -->
   <InformationPanel
     v-if="isFocused"
     :position="[asteroidLocation.x, asteroidLocation.y, asteroidLocation.z]"
@@ -40,6 +41,7 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { useRenderLoop } from '@tresjs/core';
+// eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
 import InformationPanel from './InformationPanel.vue';
 import AsteroidExtraInfo from './AsteroidExtraInfo.vue';
@@ -78,35 +80,37 @@ const asteroidLocation = ref({
 const showMoreInfo = shallowRef(false);
 const speedModifier = shallowRef(1);
 
-// const updateSpeedModifier = () => {
-//   gsap.fromTo(speedModifier, {
-//     value: 0,
-//   }, {
-//     duration: 2,
-//     value: 1,
-//   });
-// };
+const updateSpeedModifier = () => {
+  gsap.fromTo(speedModifier, {
+    value: 0,
+  }, {
+    duration: 2,
+    value: 1,
+  });
+};
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
-  onLoop(({ delta, elapsed }) => {
-    if (model.value && !props.isFocused) {
-      // Get from asteroid data
-      const orbitRadiusX = 3;
-      // Get from asteroid data
-      const orbitRadiusZ = 3;
-      const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
-      // Make a composable out of this calculation
-      const angle = (props.rotationEarth + elapsed) * orbitSpeed;
-      /* eslint-disable no-param-reassign */
-      model.value.rotation.y += Math.sin(delta * orbitSpeed);
-      model.value.rotation.z += Math.sin(delta * orbitSpeed);
-      model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
-      model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
-    }
-    asteroidLocation.value = model.value.position;
-    /* eslint-enable no-param-reassign */
-  });
+  if (!props.isFocused) {
+    onLoop(({ delta, elapsed }) => {
+      if (model.value && !props.isFocused) {
+        // Get from asteroid data
+        const orbitRadiusX = 3;
+        // Get from asteroid data
+        const orbitRadiusZ = 3;
+        const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
+        // Make a composable out of this calculation
+        const angle = (props.rotationEarth + elapsed) * orbitSpeed;
+        /* eslint-disable no-param-reassign */
+        model.value.rotation.y += Math.sin(delta * orbitSpeed);
+        model.value.rotation.z += Math.sin(delta * orbitSpeed);
+        model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
+        model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+      }
+      asteroidLocation.value = model.value.position;
+      /* eslint-enable no-param-reassign */
+    });
+  }
 });
 
 watch(
