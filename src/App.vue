@@ -1,4 +1,7 @@
 <template>
+  <Suspense>
+    <LoaderSlider />
+  </Suspense>
   <TresCanvas
     window-size
     shadows
@@ -13,8 +16,8 @@
       :look-at="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
     <!-- <CameraControls
-      v-bind="controlsState"
-    /> -->
+        v-bind="controlsState"
+      /> -->
     <AsteroidComponent
       v-for="asteroid in allAsteroids"
       :key="asteroid.id"
@@ -52,13 +55,18 @@ import AsteroidComponent from './components/AsteroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
 import AsteroidNavigation from './components/AsteroidNavigation.vue';
 import StarsBackground from './components/StarsBackground.vue';
+import LoaderSlider from './components/LoaderSlider.vue';
 import { fetchLast7Days } from './api/asteroid';
 
 const currentSunRotation = shallowRef(0);
+
+const earthRef = shallowRef();
 const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
+
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
+
 const currentFocus = ref({
   id: '0',
   position: {
@@ -68,7 +76,7 @@ const currentFocus = ref({
   },
 });
 
-const earthRef = shallowRef();
+const hasFinishedLoading = ref(false);
 
 // const controlsState = shallowRef({
 //   minDistance: 0,
