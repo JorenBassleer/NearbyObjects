@@ -11,13 +11,11 @@
       :current-focus="currentFocus"
       @on-focus="toggleFocus($event)"
     />
+    <!-- <OrbitControls :enabled="currentFocus.id === '0'" /> -->
     <TresPerspectiveCamera
       :position="[currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
-    <!-- <CameraControls
-        v-bind="controlsState"
-      /> -->
     <AsteroidComponent
       v-for="asteroid in allAsteroids"
       :key="asteroid.id"
@@ -44,12 +42,10 @@
 </template>
 
 <script setup>
-import {
-  shallowRef, onMounted, ref,
-} from 'vue';
+import { shallowRef, onMounted, ref } from 'vue';
 import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
-import { CameraControls } from '@tresjs/cientos';
+// import { OrbitControls } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
@@ -75,23 +71,6 @@ const currentFocus = ref({
     z: 0,
   },
 });
-
-const hasFinishedLoading = ref(false);
-
-// const controlsState = shallowRef({
-//   minDistance: 0,
-//   maxDistance: 500,
-// });
-
-// const animateZoom = () => {
-// gsap.to(currentZoom, {
-//   duration: 1.5,
-//   value: 100,
-//   onUpdate: () => {
-//     console.log('currentZoom', currentZoom.value);
-//   }
-// });
-// };
 
 const animateCameraPosition = (newPosition, duration = 2) => {
   gsap.to(currentFocus.value.position, {
