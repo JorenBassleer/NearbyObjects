@@ -15,9 +15,6 @@
       :position="[currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
       :look-at="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
     />
-    <!-- <CameraControls
-        v-bind="controlsState"
-      /> -->
     <AsteroidComponent
       v-for="asteroid in allAsteroids"
       :key="asteroid.id"
@@ -49,7 +46,6 @@ import {
 } from 'vue';
 import { gsap } from 'gsap';
 import { TresCanvas } from '@tresjs/core';
-import { CameraControls } from '@tresjs/cientos';
 import EarthComponent from './components/EarthComponent.vue';
 import AsteroidComponent from './components/AsteroidComponent.vue';
 import SunComponent from './components/SunComponent.vue';
@@ -77,11 +73,6 @@ const currentFocus = ref({
 });
 
 const hasFinishedLoading = ref(false);
-
-// const controlsState = shallowRef({
-//   minDistance: 0,
-//   maxDistance: 500,
-// });
 
 // const animateZoom = () => {
 // gsap.to(currentZoom, {

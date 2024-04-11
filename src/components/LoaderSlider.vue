@@ -11,22 +11,22 @@
     >
       {{ progress }} %
       <div
-        class="max-w-xl"
-      />
+        class="max-w-xl w-full overflow-hidden flex items-center justify-start"
+      >
+        <div
+          :style="{ width: `${ progress}%`}"
+        />
+        <img
+          class="text-white w-20"
+          src="../assets/comet.svg"
+        >
+      </div>
     </div>
   </Transition>
 </template>
 <script setup>
-import { watch } from 'vue';
 import { useProgress } from '@tresjs/cientos';
 
 const { progress, hasFinishLoading } = await useProgress();
 
-const emit = defineEmits(['hasFinishedLoading']);
-
-watch(hasFinishLoading, (val) => {
-  if (val) {
-    emit('hasFinishedLoading');
-  }
-});
 </script>
