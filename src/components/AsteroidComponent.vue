@@ -40,7 +40,6 @@
 import {
   defineProps, shallowRef, ref, watch, defineEmits,
 } from 'vue';
-import { gsap } from 'gsap';
 import { useRenderLoop } from '@tresjs/core';
 // eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
@@ -79,18 +78,8 @@ const asteroidLocation = ref({
   z: 0,
 });
 const showMoreInfo = shallowRef(false);
-const speedModifier = shallowRef(1);
 const pauseStartTime = ref(0);
 const totalPausedDuration = ref(0);
-
-const updateSpeedModifier = () => {
-  gsap.fromTo(speedModifier, {
-    value: 0,
-  }, {
-    duration: 2,
-    value: 1,
-  });
-};
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);

@@ -6,7 +6,6 @@
 - is_sentry_object?
 - Glow on information panels
 - Animate size on focus?
-- Loader state
 - Better phone controls
 - Place CameraControls back & fix
 [Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
