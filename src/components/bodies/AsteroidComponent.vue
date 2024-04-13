@@ -9,7 +9,6 @@
       draco
     />
   </Suspense>
-  <!-- Maybe make component out of this -->
   <InformationPanel
     v-if="isFocused"
     :position="showMoreInfo ?

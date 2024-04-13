@@ -5,9 +5,11 @@
     @on-focus="toggleFocus($event)"
   />
   <TresPerspectiveCamera
-    :position="[currentFocus.position.x + 10, currentFocus.position.y + 10, currentFocus.position.z + 10]"
+    ref="cameraRef"
+    :position="[10, 10, 10]"
   />
   <OrbitControls
+    ref="orbitControlsRef"
     :target="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
   />
   <AsteroidComponent
@@ -47,6 +49,9 @@ import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import StarsBackground from './StarsBackground.vue';
 import { fetchLast7Days } from '../api/asteroid';
 
+const orbitControlsRef = shallowRef();
+const cameraRef = shallowRef();
+
 const currentSunRotation = shallowRef(0);
 
 const earthRef = shallowRef();
@@ -65,13 +70,26 @@ const currentFocus = ref({
   },
 });
 
-const animateCameraPosition = (newPosition, duration = 2) => {
-  gsap.to(currentFocus.value.position, {
+const animateCameraPosition = (newPosition, duration = 1) => {
+  gsap.to(cameraRef.value.position, {
     duration,
     x: newPosition.x + 10,
     y: newPosition.y + 10,
     z: newPosition.z + 10,
-    ease: 'power3.out',
+    ease: 'power4.out',
+    onComplete: () => {
+      // animateZoom();
+    },
+  });
+};
+
+const animateFocusPosition = (newPosition, duration = 1) => {
+  gsap.to(currentFocus.value.position, {
+    duration,
+    x: newPosition.x,
+    y: newPosition.y,
+    z: newPosition.z,
+    ease: 'power3.in',
     onComplete: () => {
       // animateZoom();
     },
@@ -81,11 +99,13 @@ const animateCameraPosition = (newPosition, duration = 2) => {
 const toggleFocus = (asteroid) => {
   if (currentFocus.value?.id === asteroid.id) {
     currentFocus.value.id = '0';
-    animateCameraPosition({ x: 0, y: 0, z: 0 });
+    animateCameraPosition({ x: 10, y: 10, z: 10 });
+    animateFocusPosition({ x: 0, y: 0, z: 0 });
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
     currentFocus.value.id = foundAsteroid.id;
     animateCameraPosition(foundAsteroid.position);
+    animateFocusPosition(foundAsteroid.position);
   }
 };
 

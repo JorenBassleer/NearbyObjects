@@ -14,12 +14,12 @@ import { Html } from '@tresjs/cientos';
 
 defineProps({
   position: {
-    type: Object,
-    default: () => ({
-      x: 0,
-      y: 0,
-      z: 0,
-    }),
+    type: Array,
+    default: () => ([
+      0,
+      0,
+      0,
+    ]),
   },
 });
 </script>
