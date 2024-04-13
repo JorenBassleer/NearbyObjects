@@ -70,29 +70,23 @@ const currentFocus = ref({
   },
 });
 
-const animateCameraPosition = (newPosition, duration = 1) => {
+const animateCameraPosition = (newPosition, duration = 3.5) => {
   gsap.to(cameraRef.value.position, {
     duration,
     x: newPosition.x + 10,
     y: newPosition.y + 10,
     z: newPosition.z + 10,
-    ease: 'power4.out',
-    onComplete: () => {
-      // animateZoom();
-    },
+    ease: 'power3.inOut',
   });
 };
 
-const animateFocusPosition = (newPosition, duration = 1) => {
+const animateFocusPosition = (newPosition, duration = 1.5) => {
   gsap.to(currentFocus.value.position, {
     duration,
     x: newPosition.x,
     y: newPosition.y,
     z: newPosition.z,
-    ease: 'power3.in',
-    onComplete: () => {
-      // animateZoom();
-    },
+    ease: 'power3.inOut',
   });
 };
 
