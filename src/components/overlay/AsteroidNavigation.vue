@@ -44,5 +44,6 @@ defineEmits(['onFocus']);
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50vw, -50vh) !important;
+  z-index: 50 !important;
 }
 </style>
