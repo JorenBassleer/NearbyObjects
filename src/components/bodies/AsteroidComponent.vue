@@ -11,8 +11,7 @@
   </Suspense>
   <InformationPanel
     v-if="isFocused"
-    :position="showMoreInfo ?
-      [asteroidLocation.x, asteroidLocation.y + 8, asteroidLocation.z + 3] : [asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z + 3]"
+    :position="[asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z + 3]"
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
@@ -40,7 +39,6 @@ import {
   defineProps, shallowRef, ref, watch, defineEmits,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
-// eslint-disable-next-line import/no-unresolved
 import { GLTFModel } from '@tresjs/cientos';
 import InformationPanel from '../overlay/InformationPanel.vue';
 import AsteroidExtraInfo from '../overlay/AsteroidExtraInfo.vue';
