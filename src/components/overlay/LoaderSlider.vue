@@ -11,7 +11,7 @@
     >
       {{ progress }} %
       <div
-        class="max-w-xl w-full overflow-hidden flex items-center justify-start"
+        class="max-w-xl w-full overflow-hidden flex items-center justify-start px-2 lg:mx-0"
       >
         <div
           :style="{ width: `${ progress}%`}"
