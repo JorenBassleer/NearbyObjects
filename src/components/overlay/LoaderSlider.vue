@@ -18,7 +18,7 @@
         />
         <img
           class="text-white w-20"
-          src="../assets/comet.svg"
+          src="../../assets/comet.svg"
         >
       </div>
     </div>

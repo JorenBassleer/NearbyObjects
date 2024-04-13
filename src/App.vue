@@ -14,5 +14,5 @@
 import { TresCanvas } from '@tresjs/core';
 
 import MainSpace from './components/MainSpace.vue';
-import LoaderSlider from './components/LoaderSlider.vue';
+import LoaderSlider from './components/overlay/LoaderSlider.vue';
 </script>

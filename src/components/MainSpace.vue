@@ -40,10 +40,10 @@ import { gsap } from 'gsap';
 
 import { OrbitControls } from '@tresjs/cientos';
 
-import EarthComponent from './EarthComponent.vue';
-import AsteroidComponent from './AsteroidComponent.vue';
-import SunComponent from './SunComponent.vue';
-import AsteroidNavigation from './AsteroidNavigation.vue';
+import EarthComponent from './bodies/EarthComponent.vue';
+import AsteroidComponent from './bodies/AsteroidComponent.vue';
+import SunComponent from './bodies/SunComponent.vue';
+import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import StarsBackground from './StarsBackground.vue';
 import { fetchLast7Days } from '../api/asteroid';
 
