@@ -19,6 +19,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import useSize from '../../composables/size';
+import useRotation from '../../composables/rotation';
 import { GLTFModel } from '@tresjs/cientos';
 
 const sunRotation = defineModel('sunRotation', {
@@ -29,15 +30,18 @@ const sunRotation = defineModel('sunRotation', {
 const sunRef = shallowRef();
 const { onLoop } = useRenderLoop();
 const { calculateRelativeSize } = useSize();
+const { calculateRelativeRotation } = useRotation();
 
-const sunScale = calculateRelativeSize(1391000);
+const sunDiameterKm = 1391000;
+const sunScale = calculateRelativeSize(sunDiameterKm);
+
+const sunRotationRelativeToEarth = 27;
 
 watch(sunRef, (model) => {
   onLoop(({ delta }) => {
     if (model.value) {
-      console.log('delta', delta);
       /* eslint-disable no-param-reassign */
-      model.value.rotation.y += (delta / 100);
+      model.value.rotation.y += calculateRelativeRotation(sunRotationRelativeToEarth) * delta;
       sunRotation.value = model.value.rotation.y;
       /* eslint-enable no-param-reassign */
     }

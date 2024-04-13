@@ -16,6 +16,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import useSize from '../../composables/size';
+import useRotation from '../../composables/rotation';
 import { GLTFModel } from '@tresjs/cientos';
 
 const rotationEarth = defineModel('rotationEarth', {
@@ -43,17 +44,20 @@ const emit = defineEmits(['update:component']);
 
 const { onLoop } = useRenderLoop();
 const { calculateRelativeSize } = useSize();
+const { calculateRelativeRotation } = useRotation();
 
 const earthRef = shallowRef();
 const earthDiameterKm = 12742;
 const earthScale = calculateRelativeSize(earthDiameterKm);
+
+const earthRotationRelativeToEarthInDays = 1;
 
 watch(earthRef, (model) => {
   emit('update:component', model.value);
   /* eslint-disable no-param-reassign */
   onLoop(({ delta, elapsed }) => {
     if (model.value) {
-      model.value.rotation.y += (delta - 0.005);
+      model.value.rotation.y += calculateRelativeRotation(earthRotationRelativeToEarthInDays) * delta;
       rotationEarth.value = model.value.rotation.y;
 
       // Get from astroid data
