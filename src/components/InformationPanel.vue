@@ -23,10 +23,10 @@ defineProps({
   },
 });
 </script>
-<style>
+<style scoped>
 .information-panel {
   -webkit-box-shadow:0px 0px 56px 17px rgba(255,255,255,0.10);
--moz-box-shadow: 0px 0px 56px 17px rgba(255,255,255,0.10);
-box-shadow: 0px 0px 56px 17px rgba(255,255,255,0.10);
+  -moz-box-shadow: 0px 0px 56px 17px rgba(255,255,255,0.10);
+  box-shadow: 0px 0px 56px 17px rgba(255,255,255,0.10);
 }
 </style>
