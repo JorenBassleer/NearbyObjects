@@ -40,7 +40,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
-import useSize from '../../composables/size';
+import useScale from '../../composables/scale';
 import InformationPanel from '../overlay/InformationPanel.vue';
 import AsteroidExtraInfo from '../overlay/AsteroidExtraInfo.vue';
 
@@ -68,7 +68,7 @@ const props = defineProps({
 const emit = defineEmits(['update:component', 'onUnfocus']);
 
 const { onLoop } = useRenderLoop();
-const { calculateRelativeSize } = useSize();
+const { calculateRelativeScale } = useScale();
 
 const astroidRef = shallowRef(null);
 const asteroidLocation = ref({
@@ -80,7 +80,7 @@ const showMoreInfo = shallowRef(false);
 const pauseStartTime = ref(0);
 const totalPausedDuration = ref(0);
 const averageDiameterKm = (props.asteroid.estimated_diameter.kilometers.estimated_diameter_max + props.asteroid.estimated_diameter.kilometers.estimated_diameter_min) / 2;
-const asteroidScale = calculateRelativeSize(averageDiameterKm);
+const asteroidScale = calculateRelativeScale(averageDiameterKm);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);

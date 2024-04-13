@@ -6,7 +6,7 @@
   />
   <TresPerspectiveCamera
     ref="cameraRef"
-    :position="[10, 10, 10]"
+    :position="[80, 80, 80]"
   />
   <OrbitControls
     ref="orbitControlsRef"
@@ -93,8 +93,16 @@ const animateFocusPosition = (newPosition, duration = 1.5) => {
 const toggleFocus = (asteroid) => {
   if (currentFocus.value?.id === asteroid.id) {
     currentFocus.value.id = '0';
-    animateCameraPosition({ x: 10, y: 10, z: 10 });
-    animateFocusPosition({ x: 0, y: 0, z: 0 });
+    animateCameraPosition({
+      x: currentEarthPosition.value.x + 40,
+      y: currentEarthPosition.value.y + 40,
+      z: currentEarthPosition.value.z + 40,
+    });
+    animateFocusPosition({
+      x: currentEarthPosition.value.x,
+      y: currentEarthPosition.value.y,
+      z: currentEarthPosition.value.z,
+    });
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
     currentFocus.value.id = foundAsteroid.id;

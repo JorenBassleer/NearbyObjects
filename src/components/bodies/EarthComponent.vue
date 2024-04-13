@@ -15,8 +15,11 @@ import {
   shallowRef, watch, defineModel, defineProps, defineEmits,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
-import useSize from '../../composables/size';
+import useScale from '../../composables/scale';
 import useRotation from '../../composables/rotation';
+import useDistance from '../../composables/distance';
+import relativeVariables from '../../utils/relativeVariables.json';
+
 import { GLTFModel } from '@tresjs/cientos';
 
 const rotationEarth = defineModel('rotationEarth', {
@@ -43,13 +46,14 @@ const props = defineProps({
 const emit = defineEmits(['update:component']);
 
 const { onLoop } = useRenderLoop();
-const { calculateRelativeSize } = useSize();
+const { calculateRelativeScale } = useScale();
 const { calculateRelativeRotation } = useRotation();
+const { calculateRelativeDistance } = useDistance();
 
 const earthRef = shallowRef();
 const earthDiameterKm = 12742;
-const earthScale = calculateRelativeSize(earthDiameterKm);
-
+const earthScale = calculateRelativeScale(earthDiameterKm);
+const distanceBetweenEarthAndSun = 150030000 + (earthDiameterKm / 2) + (relativeVariables.sunDiameterKm / 2);
 const earthRotationRelativeToEarthInDays = 1;
 
 watch(earthRef, (model) => {
@@ -60,14 +64,11 @@ watch(earthRef, (model) => {
       model.value.rotation.y += calculateRelativeRotation(earthRotationRelativeToEarthInDays) * delta;
       rotationEarth.value = model.value.rotation.y;
 
-      // Get from astroid data
-      const orbitRadiusX = 10;
-      // Get from astroid data
-      const orbitRadiusZ = 15;
-      const orbitSpeed = 0.007;
+      const orbitSpeed = calculateRelativeRotation(365.25);
       const angle = (props.rotationSun + elapsed) * orbitSpeed;
-      model.value.position.x = orbitRadiusX * Math.sin(angle);
-      model.value.position.z = orbitRadiusZ * Math.cos(angle);
+      model.value.position.x = 80 + calculateRelativeDistance(distanceBetweenEarthAndSun) * Math.sin(angle);
+      model.value.position.z = 80 + calculateRelativeDistance(distanceBetweenEarthAndSun) * Math.cos(angle);
+
       positionEarth.value.x = model.value.position.x;
       positionEarth.value.z = model.value.position.z;
       /* eslint-enable no-param-reassign */
