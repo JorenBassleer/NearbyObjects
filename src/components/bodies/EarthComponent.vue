@@ -5,7 +5,7 @@
       path="/models/Earth.glb"
       receive-shadow
       cast-shadow
-      :scale="0.005"
+      :scale="earthScale"
       draco
     />
   </Suspense>
@@ -15,6 +15,7 @@ import {
   shallowRef, watch, defineModel, defineProps, defineEmits,
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
+import useSize from '../../composables/size';
 import { GLTFModel } from '@tresjs/cientos';
 
 const rotationEarth = defineModel('rotationEarth', {
@@ -41,14 +42,17 @@ const props = defineProps({
 const emit = defineEmits(['update:component']);
 
 const { onLoop } = useRenderLoop();
+const { calculateRelativeSize } = useSize();
 
 const earthRef = shallowRef();
+const earthDiameterKm = 12742;
+const earthScale = calculateRelativeSize(earthDiameterKm);
 
 watch(earthRef, (model) => {
   emit('update:component', model.value);
+  /* eslint-disable no-param-reassign */
   onLoop(({ delta, elapsed }) => {
     if (model.value) {
-      /* eslint-disable no-param-reassign */
       model.value.rotation.y += (delta - 0.005);
       rotationEarth.value = model.value.rotation.y;
 

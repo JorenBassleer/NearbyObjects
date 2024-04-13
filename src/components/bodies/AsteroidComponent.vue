@@ -5,7 +5,7 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="0.001"
+      :scale="asteroidScale"
       draco
     />
   </Suspense>
@@ -40,6 +40,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
+import useSize from '../../composables/size';
 import InformationPanel from '../overlay/InformationPanel.vue';
 import AsteroidExtraInfo from '../overlay/AsteroidExtraInfo.vue';
 
@@ -67,6 +68,7 @@ const props = defineProps({
 const emit = defineEmits(['update:component', 'onUnfocus']);
 
 const { onLoop } = useRenderLoop();
+const { calculateRelativeSize } = useSize();
 
 const astroidRef = shallowRef(null);
 const asteroidLocation = ref({
@@ -77,6 +79,8 @@ const asteroidLocation = ref({
 const showMoreInfo = shallowRef(false);
 const pauseStartTime = ref(0);
 const totalPausedDuration = ref(0);
+const averageDiameterKm = (props.asteroid.estimated_diameter.kilometers.estimated_diameter_max + props.asteroid.estimated_diameter.kilometers.estimated_diameter_min) / 2;
+const asteroidScale = calculateRelativeSize(averageDiameterKm);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
@@ -84,12 +88,10 @@ watch(astroidRef, (model) => {
     if (props.isFocused || !model.value) {
       return;
     }
-
     const effectiveElapsed = elapsed - totalPausedDuration.value / 1000;
 
     const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
     const angle = (props.rotationEarth + effectiveElapsed) * orbitSpeed;
-
     /* eslint-disable no-param-reassign */
     model.value.rotation.y += Math.sin(delta * orbitSpeed);
     model.value.rotation.z += Math.sin(delta * orbitSpeed);
