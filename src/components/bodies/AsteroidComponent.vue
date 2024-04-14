@@ -11,7 +11,7 @@
   </Suspense>
   <InformationPanel
     v-if="isFocused"
-    :position="[asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z + 3]"
+    v-model:component="informationPanelRef"
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
@@ -71,14 +71,17 @@ const { onLoop } = useRenderLoop();
 const { calculateRelativeScale } = useScale();
 
 const astroidRef = shallowRef(null);
+const informationPanelRef = shallowRef();
 const asteroidLocation = ref({
   x: 0,
   y: 0,
   z: 0,
 });
 const showMoreInfo = shallowRef(false);
+
 const pauseStartTime = ref(0);
 const totalPausedDuration = ref(0);
+
 const averageDiameterKm = (props.asteroid.estimated_diameter.kilometers.estimated_diameter_max + props.asteroid.estimated_diameter.kilometers.estimated_diameter_min) / 2;
 const asteroidScale = calculateRelativeScale(averageDiameterKm);
 
@@ -97,7 +100,8 @@ watch(astroidRef, (model) => {
     model.value.rotation.z += Math.sin(delta * orbitSpeed);
     model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
     model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
-    asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
+    if (informationPanelRef.value?.position) informationPanelRef.value.position = JSON.parse(JSON.stringify(model.value.position));
+    // asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
     /* eslint-enable no-param-reassign */
   });
 });

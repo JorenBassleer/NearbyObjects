@@ -1,6 +1,6 @@
 <template>
   <Html
-    :position="position"
+    ref="htmlWrapper"
     sprite
   >
     <div class="bg-white text-xs p-1 rounded text-gray-700 w-64 information-panel">
@@ -9,18 +9,22 @@
   </Html>
 </template>
 <script setup>
-import { defineProps } from 'vue';
+import {
+  watch, shallowRef, defineModel,
+} from 'vue';
 import { Html } from '@tresjs/cientos';
 
-defineProps({
-  position: {
-    type: Array,
-    default: () => ([
-      0,
-      0,
-      0,
-    ]),
-  },
+const component = defineModel('component', {
+  type: Object,
+  required: true,
+});
+
+const htmlWrapper = shallowRef();
+
+watch(htmlWrapper, (model) => {
+  if (model.value) {
+    component.value = model.value;
+  }
 });
 </script>
 <style scoped>
