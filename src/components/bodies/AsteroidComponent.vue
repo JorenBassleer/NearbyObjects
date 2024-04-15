@@ -11,7 +11,7 @@
   </Suspense>
   <InformationPanel
     v-if="isFocused"
-    v-model:component="informationPanelRef"
+    :position="[asteroidLocation.x, asteroidLocation.y + 5, asteroidLocation.z]"
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
@@ -71,7 +71,6 @@ const { onLoop } = useRenderLoop();
 const { calculateRelativeScale } = useScale();
 
 const astroidRef = shallowRef(null);
-const informationPanelRef = shallowRef();
 const asteroidLocation = ref({
   x: 0,
   y: 0,
@@ -100,8 +99,7 @@ watch(astroidRef, (model) => {
     model.value.rotation.z += Math.sin(delta * orbitSpeed);
     model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
     model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
-    if (informationPanelRef.value?.position) informationPanelRef.value.position = JSON.parse(JSON.stringify(model.value.position));
-    // asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
+    asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
     /* eslint-enable no-param-reassign */
   });
 });
@@ -114,5 +112,4 @@ watch(() => props.isFocused, (newVal) => {
     pauseStartTime.value = 0;
   }
 });
-
 </script>
