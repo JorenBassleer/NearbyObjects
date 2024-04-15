@@ -19,6 +19,7 @@ import useScale from '../../composables/scale';
 import useRotation from '../../composables/rotation';
 import useDistance from '../../composables/distance';
 import relativeVariables from '../../utils/relativeVariables.json';
+import * as THREE from 'three';
 
 import { GLTFModel } from '@tresjs/cientos';
 
@@ -53,12 +54,28 @@ const { calculateRelativeDistance } = useDistance();
 const earthRef = shallowRef();
 const earthDiameterKm = 12742;
 const earthScale = calculateRelativeScale(earthDiameterKm);
+
 const distanceBetweenEarthAndSun = 150030000 + (earthDiameterKm / 2) + (relativeVariables.sunDiameterKm / 2);
 const earthRotationRelativeToEarthInDays = 1;
+const calculateBoundingBox = (group) => {
+  const boundingBox = new THREE.Box3();
 
+  group.traverse((child) => {
+    if (child.isMesh) {
+      // eslint-disable-next-line no-console
+      console.log('childGeometry:', child.geometry);
+      child.geometry.computeBoundingBox();
+      const childBoundingBox = child.geometry.boundingBox.clone();
+      childBoundingBox.applyMatrix4(child.matrixWorld);
+      boundingBox.union(childBoundingBox);
+    }
+  });
+  return boundingBox;
+};
 watch(earthRef, (model) => {
   emit('update:component', model.value);
   /* eslint-disable no-param-reassign */
+  console.log('test:', calculateBoundingBox(model.value), earthScale);
   onLoop(({ delta, elapsed }) => {
     if (model.value) {
       model.value.rotation.y += calculateRelativeRotation(earthRotationRelativeToEarthInDays) * delta;
