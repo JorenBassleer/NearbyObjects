@@ -3,7 +3,7 @@
     :position="position"
     sprite
   >
-    <div class="bg-white text-xs p-1 rounded text-gray-700 w-64 information-panel">
+    <div class="bg-transparent text-xs p-1 rounded text-white w-64 information-panel select-none border">
       <slot />
     </div>
   </Html>

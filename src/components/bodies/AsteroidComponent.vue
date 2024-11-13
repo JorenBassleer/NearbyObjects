@@ -15,7 +15,7 @@
   >
     <div class="flex justify-between items-center">
       <h1 class="font-bold">
-        ☄️ {{ asteroid.name }}
+        ☄️ {{ asteroid.name }} <span v-if="asteroid.is_potentially_hazardous_asteroid ">⚠️</span>
       </h1>
       <span
         class="font-semibold cursor-pointer p-2 hover:text-blue-500"
@@ -23,7 +23,7 @@
       >X</span>
     </div>
     <small
-      class="text-blue-500 cursor-pointer hover:text-blue-400 select-none"
+      class="underline cursor-pointer select-none p-2"
       @click="showMoreInfo = !showMoreInfo"
     >
       Show more info
