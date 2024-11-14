@@ -6,6 +6,7 @@
       class="text-white"
       :enable-time-picker="false"
       :range="{ maxRange: 7 }"
+      :clearable="false"
       dark
     />
   </Html>

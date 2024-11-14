@@ -14,7 +14,7 @@
         class="max-w-xl w-full overflow-hidden flex items-center justify-start px-2 lg:mx-0"
       >
         <div
-          :style="{ width: `${ progress}%`}"
+          :style="{ width: `${ progress }%`}"
         />
         <img
           class="text-white w-20"

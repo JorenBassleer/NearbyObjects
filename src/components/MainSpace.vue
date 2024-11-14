@@ -54,7 +54,7 @@ import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import DatePicker from './overlay/DatePicker.vue';
 
 import StarsBackground from './StarsBackground.vue';
-import { fetchAsteroids } from '../api/asteroid';
+import useAsteroids from '../composables/asteroids';
 
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
@@ -67,6 +67,8 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
+
+const { fetchAsteroids } = useAsteroids();
 
 const currentFocus = ref({
   id: '0',
@@ -90,8 +92,8 @@ const formatDate = (date) => {
 };
 
 const onUpdateDateRange = async () => {
-  const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData).flat();
+  const { data } = fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
+  allAsteroids.value = Object.values(data).flat();
 };
 
 const animateCameraPosition = (newPosition, duration = 3.5) => {
@@ -128,7 +130,7 @@ const toggleFocus = (asteroid) => {
 };
 
 onMounted(async () => {
-  const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData).flat();
+  const { data } = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
+  allAsteroids.value = Object.values(data).flat();
 });
 </script>
