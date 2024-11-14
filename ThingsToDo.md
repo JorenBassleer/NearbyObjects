@@ -1,12 +1,10 @@
 # To Do
 
 - filter for potential hazardous?
+- Sort in asteroid list?
 - Zoom after camera movement astroid
 - Asteroid with other orbiting bodies?
 - is_sentry_object?
-- Glow on information panels
 - Animate size on focus?
 - Better phone controls
-- Place CameraControls back & fix
-[Link](https://cientos.tresjs.org/guide/misc/html-component.html#html)
-- [Project example](https://gitee.com/ice-gl/icegl-three-vue-tres/blob/master/src/plugins/UIdemo/pages/divIllustrate.vue)p
+- [Project example](https://gitee.com/ice-gl/icegl-three-vue-tres/blob/master/src/plugins/UIdemo/pages/divIllustrate.vue)
