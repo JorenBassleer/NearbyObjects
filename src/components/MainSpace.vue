@@ -4,6 +4,7 @@
     :current-focus="currentFocus"
     @on-focus="toggleFocus($event)"
   />
+  <DatePicker />
   <TresPerspectiveCamera
     ref="cameraRef"
     :position="[10, 10, 10]"
@@ -45,7 +46,10 @@ import { OrbitControls } from '@tresjs/cientos';
 import EarthComponent from './bodies/EarthComponent.vue';
 import AsteroidComponent from './bodies/AsteroidComponent.vue';
 import SunComponent from './bodies/SunComponent.vue';
+
 import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
+import DatePicker from './overlay/DatePicker.vue';
+
 import StarsBackground from './StarsBackground.vue';
 import { fetchLast7Days } from '../api/asteroid';
 
