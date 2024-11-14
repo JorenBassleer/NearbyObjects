@@ -4,9 +4,7 @@
       <h2 class="text-base md:text-xl border-b px-2 py-1 md:px-4 md:py-2">
         Asteroids
       </h2>
-      <section
-        class="max-h-60 overflow-y-scroll overflow-x-hidden"
-      >
+      <section class="max-h-32 md:max-h-60 overflow-y-scroll overflow-x-hidden">
         <section
           v-if="+currentFocus.id !== 0"
           class="cursor-pointer text-black bg-white hover:bg-black hover:text-white"
@@ -55,6 +53,6 @@ defineEmits(['onFocus']);
   left: 50% !important;
   transform: translate(-50vw, -50vh) !important;
   z-index: 50 !important;
-  margin: 1rem;
+  margin: 2.5rem 1rem 1rem 1rem;
 }
 </style>

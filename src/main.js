@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import './style.css';
+import '@vuepic/vue-datepicker/dist/main.css';
 import Tres from '@tresjs/core';
 import App from './App.vue';
 
