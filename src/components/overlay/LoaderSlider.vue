@@ -7,7 +7,7 @@
   >
     <div
       v-show="!hasFinishLoading"
-      class="fixed bg-[#00040C] inset-0 size-full text-center flex flex-col justify-center items-center z-[80]"
+      class="fixed bg-[#00040C] inset-0 size-full text-center flex flex-col justify-center items-center z-[80] select-none"
     >
       {{ progress }} %
       <div

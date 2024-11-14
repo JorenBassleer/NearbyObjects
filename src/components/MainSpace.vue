@@ -4,7 +4,10 @@
     :current-focus="currentFocus"
     @on-focus="toggleFocus($event)"
   />
-  <DatePicker />
+  <DatePicker
+    v-model="selectedDateRange"
+    @update:model-value="onUpdateDateRange"
+  />
   <TresPerspectiveCamera
     ref="cameraRef"
     :position="[10, 10, 10]"
@@ -51,7 +54,7 @@ import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import DatePicker from './overlay/DatePicker.vue';
 
 import StarsBackground from './StarsBackground.vue';
-import { fetchLast7Days } from '../api/asteroid';
+import { fetchAsteroids } from '../api/asteroid';
 
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
@@ -73,6 +76,23 @@ const currentFocus = ref({
     z: 0,
   },
 });
+
+const selectedDateRange = ref([
+  new Date(),
+  new Date(new Date().setDate(new Date().getDate() + 7)),
+]);
+
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const onUpdateDateRange = async () => {
+  const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
+  allAsteroids.value = Object.values(fetchedData).flat();
+};
 
 const animateCameraPosition = (newPosition, duration = 3.5) => {
   gsap.to(cameraRef.value.position, {
@@ -108,7 +128,7 @@ const toggleFocus = (asteroid) => {
 };
 
 onMounted(async () => {
-  const fetchedData = await fetchLast7Days();
+  const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
   allAsteroids.value = Object.values(fetchedData).flat();
 });
 </script>
