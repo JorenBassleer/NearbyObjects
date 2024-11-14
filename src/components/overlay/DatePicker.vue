@@ -1,7 +1,7 @@
 <template>
   <Html wrapper-class="rangePicker w-full">
     <VueDatePicker
-      v-model="selectedDateRange"
+      v-model="modelValue"
       placeholder="Range of max 7 days"
       class="text-white"
       :enable-time-picker="false"
@@ -11,11 +11,13 @@
   </Html>
 </template>
 <script setup>
-import { ref } from 'vue';
 import { Html } from '@tresjs/cientos';
 import VueDatePicker from '@vuepic/vue-datepicker';
 
-const selectedDateRange = ref();
+const modelValue = defineModel({
+  type: Array,
+  required: true,
+});
 </script>
 
 <style>
