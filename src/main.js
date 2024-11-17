@@ -5,11 +5,7 @@ import Tres from '@tresjs/core';
 import App from './App.vue';
 import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query';
 
-const myClient = new QueryClient({
-  queryClientConfig: {
-    defaultOptions: { queries: { staleTime: 3600 } },
-  },
-});
+const myClient = new QueryClient();
 
 export const app = createApp(App);
 app.use(VueQueryPlugin, { queryClient: myClient });

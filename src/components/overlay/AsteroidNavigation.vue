@@ -7,7 +7,7 @@
       <section class="max-h-32 md:max-h-60 overflow-y-scroll overflow-x-hidden">
         <section
           v-if="+currentFocus.id !== 0"
-          class="cursor-pointer text-black bg-white hover:bg-black hover:text-white"
+          class="cursor-pointer text-black bg-white hover:bg-black hover:text-white px-2 md:px-4"
           @click="$emit('onFocus', asteroids.find((asteroid) => asteroid.id === currentFocus.id))"
         >
           {{ asteroids.find((asteroid) => asteroid.id === currentFocus.id)?.name }}
