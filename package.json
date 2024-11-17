@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@rollup/plugin-eslint": "^9.0.5",
+    "@tanstack/vue-query": "^5.0.0",
     "@tresjs/cientos": "^3.8.0",
     "@tresjs/core": "^3.7.0",
     "@vuepic/vue-datepicker": "^10.0.0",
