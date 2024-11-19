@@ -28,14 +28,10 @@
   />
   <EarthComponent
     v-model:rotation-earth="currentEarthRotation"
-    v-model:position-earth="currentEarthPosition"
-    :rotation-sun="currentSunRotation"
     @update:component="earthRef = $event"
   />
 
-  <SunComponent v-model:sunRotation="currentSunRotation" />
-
-  <StarsBackground :current-sun-rotation="currentSunRotation" />
+  <StarsBackground :current-sun-rotation="currentEarthRotation" />
 
   <TresAmbientLight :intensity="2.5" />
 </template>
@@ -48,7 +44,7 @@ import { OrbitControls } from '@tresjs/cientos';
 
 import EarthComponent from './bodies/EarthComponent.vue';
 import AsteroidComponent from './bodies/AsteroidComponent.vue';
-import SunComponent from './bodies/SunComponent.vue';
+// import SunComponent from './bodies/SunComponent.vue';
 
 import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import DatePicker from './overlay/DatePicker.vue';
@@ -59,10 +55,9 @@ import { fetchAsteroids } from '../api/asteroid';
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
 
-const currentSunRotation = shallowRef(0);
+const currentEarthRotation = shallowRef(0);
 
 const earthRef = shallowRef();
-const currentEarthRotation = shallowRef(0);
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 const allAsteroids = shallowRef([]);
