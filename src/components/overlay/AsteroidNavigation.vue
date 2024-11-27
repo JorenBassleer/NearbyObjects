@@ -1,9 +1,19 @@
 <template>
   <Html wrapper-class="list">
     <section class="bg-transparent text-white w-64 md:w-72 rounded-lg select-none">
-      <h2 class="text-base md:text-xl border-b px-2 py-1 md:px-4 md:py-2">
-        Asteroids
-      </h2>
+      <div class="flex justify-between items-center">
+        <h2 class="text-base md:text-xl border-b px-2 py-1 md:px-4 md:py-2">
+          Asteroids
+        </h2>
+
+        <div class="flex gap-1">
+          Distance
+          <MaterialIcon icon="arrow_drop_up" />
+        </div>
+        <div>
+          Is danger
+        </div>
+      </div>
       <section class="max-h-32 md:max-h-60 overflow-y-scroll overflow-x-hidden">
         <section
           v-if="+currentFocus.id !== 0"
