@@ -11,7 +11,7 @@
   </Suspense>
 
   <TresPointLight
-    :args="['#fee21f', 500, 100]"
+    :args="['#7E710F', 500, 100]"
     :position="[0,0,0]"
     cast-shadow
   />
