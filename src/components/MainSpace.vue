@@ -87,8 +87,6 @@ const formatDate = (date) => {
 const onUpdateDateRange = async () => {
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
   allAsteroids.value = Object.values(fetchedData).flat();
-  // eslint-disable-next-line no-console
-  console.log(allAsteroids.value.map((entry) => entry.id));
 };
 
 const animateCameraPosition = (newPosition, duration = 3.5) => {
