@@ -40,6 +40,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
+import * as THREE from 'three';
 import InformationPanel from '../overlay/InformationPanel.vue';
 import AsteroidExtraInfo from '../overlay/AsteroidExtraInfo.vue';
 
@@ -80,6 +81,17 @@ const totalPausedDuration = ref(0);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
+  const boundingBox = new THREE.Box3().setFromObject(model.value);
+  const asteroidScale = ((props.asteroid.estimated_diameter.kilometers.estimated_diameter_max + props.asteroid.estimated_diameter.kilometers.estimated_diameter_min) / 2) / 100;
+  model.value.scale.x = asteroidScale;
+  model.value.scale.y = asteroidScale;
+  model.value.scale.z = asteroidScale;
+  console.log('scale:', model.value.scale);
+
+  // eslint-disable-next-line no-console
+  console.log('asteroid::', boundingBox);
+  // eslint-disable-next-line no-console
+  console.log('asteroidSize:', props.asteroid);
   onLoop(({ delta, elapsed }) => {
     if (props.isFocused || !model.value) {
       return;
