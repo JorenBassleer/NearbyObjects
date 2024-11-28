@@ -40,11 +40,11 @@
 import { shallowRef, onMounted, ref } from 'vue';
 import { gsap } from 'gsap';
 
+import { useTresContext } from '@tresjs/core';
 import { OrbitControls } from '@tresjs/cientos';
 
 import EarthComponent from './bodies/EarthComponent.vue';
 import AsteroidComponent from './bodies/AsteroidComponent.vue';
-// import SunComponent from './bodies/SunComponent.vue';
 
 import AsteroidNavigation from './overlay/AsteroidNavigation.vue';
 import DatePicker from './overlay/DatePicker.vue';
@@ -62,6 +62,7 @@ const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
 
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
+const { scene } = useTresContext();
 
 const currentFocus = ref({
   id: '0',
@@ -84,7 +85,13 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
+const deleteOldAsteroidsFromScene = () => {
+  const totalAmountOfAsteroids = allAsteroids.value.length;
+  if (totalAmountOfAsteroids > 0) scene.value.children.splice(-totalAmountOfAsteroids, totalAmountOfAsteroids);
+};
+
 const onUpdateDateRange = async () => {
+  deleteOldAsteroidsFromScene();
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
   allAsteroids.value = Object.values(fetchedData).flat();
 };
