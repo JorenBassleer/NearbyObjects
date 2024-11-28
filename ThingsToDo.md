@@ -1,9 +1,13 @@
 # To Do
+## Next steps
+1. Find size of earth and + distance between asteroid & earth so it's 'real'
+2. Set all data to a relative scale (look for scales maybe first)
+3. Have sort in list (Size, Dangerous ones/...)
+4. Look to improve information Panel
+5. Create Title screen
 
-- filter for potential hazardous?
-- Sort in asteroid list?
-- Asteroid with other orbiting bodies?
-- is_sentry_object?
+## Nice to haves
+- Make clicking on asteroid possible
 - Animate size on focus?
 - Better phone controls
 - distances in relation to distances between earth & moon
