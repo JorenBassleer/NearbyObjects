@@ -22,12 +22,14 @@
     :asteroid="asteroid"
     :rotation-earth="currentEarthRotation"
     :position-earth="currentEarthPosition"
+    :earth-radius="earthRadius"
     :is-focused="currentFocus?.id === asteroid.id"
     @update:component="allAsteroidRefs.push({id: asteroid.id, ...$event})"
     @on-unfocus="toggleFocus(asteroid)"
   />
   <EarthComponent
     v-model:rotation-earth="currentEarthRotation"
+    @earth-radius="earthRadius = $event"
     @update:component="earthRef = $event"
   />
 
@@ -55,10 +57,10 @@ import { fetchAsteroids } from '../api/asteroid';
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
 
-const currentEarthRotation = shallowRef(0);
-
 const earthRef = shallowRef();
 const currentEarthPosition = shallowRef({ x: 0, y: 0, z: 0 });
+const currentEarthRotation = shallowRef(0);
+const earthRadius = shallowRef(0);
 
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
