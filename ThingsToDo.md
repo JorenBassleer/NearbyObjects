@@ -1,10 +1,10 @@
 # To Do
 ## Next steps
-1. Find size of earth and + distance between asteroid & earth so it's 'real'
-2. Set all data to a relative scale (look for scales maybe first)
-3. Have sort in list (Size, Dangerous ones/...)
-4. Look to improve information Panel
-5. Create Title screen
+1. Set all data to a relative scale (look for scales maybe first)
+2. Have sort in list (Size, Dangerous ones/...)
+3. Look to improve information Panel
+4. Create Title screen
+5. Add more asteroids (randomiser in which asteroid is used)
 
 ## Nice to haves
 - Make clicking on asteroid possible
