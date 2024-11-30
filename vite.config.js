@@ -9,6 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@composables': path.resolve(__dirname, './src/composables/'),
       '@axios': path.resolve(__dirname, './src/services/axios'),
     },
   },

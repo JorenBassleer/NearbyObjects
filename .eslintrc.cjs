@@ -36,6 +36,7 @@ module.exports = {
       alias: {
         map: [
          ['@', './src/'],
+         ['@composables', './src/composables/'],
          ['@axios', './src/services/axios'],
         ],
         extensions: ['.js', '.vue'],
