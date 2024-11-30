@@ -40,6 +40,7 @@ import {
 } from 'vue';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
+// import * as THREE from 'three';
 import InformationPanel from '../overlay/InformationPanel.vue';
 import AsteroidExtraInfo from '../overlay/AsteroidExtraInfo.vue';
 
@@ -57,6 +58,10 @@ const props = defineProps({
     default: () => ({
       x: 0, y: 0, z: 0,
     }),
+  },
+  earthRadius: {
+    type: Number,
+    default: 0,
   },
   isFocused: {
     type: Boolean,
@@ -80,6 +85,14 @@ const totalPausedDuration = ref(0);
 
 watch(astroidRef, (model) => {
   emit('update:component', model.value);
+  // const boundingBox = new THREE.Box3().setFromObject(model.value);
+  const asteroidScale = ((props.asteroid.estimated_diameter.kilometers.estimated_diameter_max + props.asteroid.estimated_diameter.kilometers.estimated_diameter_min) / 2) / 100;
+  /* eslint-disable no-param-reassign */
+  model.value.scale.x = asteroidScale;
+  model.value.scale.y = asteroidScale;
+  model.value.scale.z = asteroidScale;
+  // eslint-disable-next-line no-console
+  /* eslint-enable no-param-reassign */
   onLoop(({ delta, elapsed }) => {
     if (props.isFocused || !model.value) {
       return;
@@ -93,8 +106,9 @@ watch(astroidRef, (model) => {
     /* eslint-disable no-param-reassign */
     model.value.rotation.y += Math.sin(delta * orbitSpeed);
     model.value.rotation.z += Math.sin(delta * orbitSpeed);
-    model.value.position.x = props.positionEarth.x + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.sin(angle);
-    model.value.position.z = props.positionEarth.z + props.asteroid.close_approach_data[0].miss_distance.lunar * Math.cos(angle);
+    model.value.position.x = Number(props.positionEarth.x) + (Number(props.asteroid.close_approach_data[0].miss_distance.lunar) + Number(props.earthRadius)) * Math.sin(angle);
+    model.value.position.z = Number(props.positionEarth.z) + (Number(props.asteroid.close_approach_data[0].miss_distance.lunar) + Number(props.earthRadius)) * Math.cos(angle);
+
     asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
     /* eslint-enable no-param-reassign */
   });

@@ -1,9 +1,13 @@
 # To Do
+## Next steps
+1. Set all data to a relative scale (look for scales maybe first)
+2. Have sort in list (Size, Dangerous ones/...)
+3. Look to improve information Panel
+4. Create Title screen
+5. Add more asteroids (randomiser in which asteroid is used)
 
-- filter for potential hazardous?
-- Sort in asteroid list?
-- Asteroid with other orbiting bodies?
-- is_sentry_object?
+## Nice to haves
+- Make clicking on asteroid possible
 - Animate size on focus?
 - Better phone controls
 - distances in relation to distances between earth & moon
