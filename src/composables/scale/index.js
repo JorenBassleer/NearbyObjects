@@ -1,14 +1,10 @@
-const useRelativeScale = (earthRadiusInScene) => {
-  const earthRadiusInKm = 6371;
+const useRelativeScale = (earthScale) => {
+  const earthDiameterInKm = 6371 * 2; // Earth's diameter in kilometers
+  const earthDiameterInScene = earthScale * earthDiameterInKm; // Earth's diameter in the scene
 
-  const computeRelativeSize = (distanceInKm) => {
-    const logBase = 1; // You can adjust the base of the log here (default: 10)
+  const scaleFactor = earthDiameterInScene / earthDiameterInKm;
 
-    const logDistance = Math.log(distanceInKm) / Math.log(logBase);
-
-    const sceneDistance = logDistance * (earthRadiusInScene / earthRadiusInKm);
-    return sceneDistance;
-  };
+  const computeRelativeSize = (realWorldValueInKm) => realWorldValueInKm * scaleFactor;
 
   return {
     computeRelativeSize,

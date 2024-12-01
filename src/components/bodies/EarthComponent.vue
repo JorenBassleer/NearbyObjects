@@ -41,6 +41,7 @@ watch(earthRef, (model) => {
   const size = new THREE.Vector3();
   boundingBox.getSize(size);
   emit('earthRadius', Math.sqrt(size.x ** 2 + size.y ** 2 + size.z ** 2) / 2);
+
   onLoop(({ delta }) => {
     if (model.value) {
       /* eslint-disable no-param-reassign */

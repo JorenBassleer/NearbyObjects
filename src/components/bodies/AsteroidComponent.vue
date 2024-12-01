@@ -103,8 +103,6 @@ watch(astroidRef, (model) => {
       Number(props.asteroid.close_approach_data[0].miss_distance.kilometers),
     );
     /* eslint-disable no-param-reassign */
-    // model.value.rotation.y += Math.sin(delta * orbitSpeed);
-    // model.value.rotation.z += Math.sin(delta * orbitSpeed);
     model.value.position.x = Number(props.positionEarth.x) + missDistance * Math.sin(angle);
     model.value.position.z = Number(props.positionEarth.z) + missDistance * Math.cos(angle);
 
