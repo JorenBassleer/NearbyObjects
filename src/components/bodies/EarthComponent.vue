@@ -5,7 +5,7 @@
       path="/models/Earth.glb"
       receive-shadow
       :position="[0,0,0]"
-      :scale="0.005"
+      :scale="0.01"
       draco
     />
   </Suspense>
