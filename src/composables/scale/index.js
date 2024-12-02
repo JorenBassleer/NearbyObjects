@@ -1,13 +1,16 @@
 const useRelativeScale = (earthScale) => {
-  const earthDiameterInKm = 6371 * 2; // Earth's diameter in kilometers
-  const earthDiameterInScene = earthScale * earthDiameterInKm; // Earth's diameter in the scene
+  const earthDiameterInKm = 12742;
+  const earthDiameterInScene = earthScale * earthDiameterInKm;
 
   const scaleFactor = earthDiameterInScene / earthDiameterInKm;
 
-  const computeRelativeSize = (realWorldValueInKm) => realWorldValueInKm * scaleFactor;
+  const computeRelativeScale = (realWorldValueInKm) => realWorldValueInKm * scaleFactor;
+
+  const computeRelativeDistance = (distance) => (distance / earthDiameterInKm) ** 1 * earthScale;
 
   return {
-    computeRelativeSize,
+    computeRelativeDistance,
+    computeRelativeScale,
   };
 };
 
