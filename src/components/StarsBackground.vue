@@ -3,6 +3,7 @@
     <Stars
       :rotation="[0, currentSunRotation, 0]"
       :size="starsSize"
+      :radius="400"
     />
   </Suspense>
 </template>
