@@ -9,8 +9,17 @@
         <div class="flex gap-1 items-center mr-2">
           Distance
           <div class="flex flex-col gap-1">
-            <span class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5">arrow_drop_up</span>
-            <span class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5">arrow_drop_down</span>
+            <span
+              class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5"
+              :class="{
+                'bg-gray-600': currentFilterActive.type = 'asc'
+              }"
+              @click="onSort({ key: 'distance', type: 'asc'})"
+            >arrow_drop_up</span>
+            <span
+              class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5"
+              @click="onSort({ key: 'distance', type: 'desc'})"
+            >arrow_drop_down</span>
           </div>
         </div>
       </div>
@@ -38,7 +47,7 @@
   </Html>
 </template>
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { Html } from '@tresjs/cientos';
 
 defineProps({
@@ -52,8 +61,14 @@ defineProps({
   },
 });
 
-defineEmits(['onFocus', 'onSort']);
+const emit = defineEmits(['onFocus', 'onSort']);
 
+const currentFilterActive = ref('');
+
+const onSort = (sortInfo) => {
+  currentFilterActive.value = { ...sortInfo };
+  emit('onSort', currentFilterActive.value);
+};
 </script>
 <style>
 /* Workaround for now */
