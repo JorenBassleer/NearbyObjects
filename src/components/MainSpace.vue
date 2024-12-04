@@ -95,7 +95,13 @@ const deleteOldAsteroidsFromScene = () => {
 const onUpdateDateRange = async () => {
   deleteOldAsteroidsFromScene();
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData).flat();
+  allAsteroids.value = Object.values(fetchedData)
+    .flat()
+    .sort((a, b) => {
+      const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
+      const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
+      return distanceA - distanceB;
+    });
 };
 
 const animateCameraPosition = (newPosition, duration = 3.5) => {
@@ -133,6 +139,12 @@ const toggleFocus = (asteroid) => {
 
 onMounted(async () => {
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData).flat();
+  allAsteroids.value = Object.values(fetchedData)
+    .flat()
+    .sort((a, b) => {
+      const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
+      const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
+      return distanceA - distanceB;
+    });
 });
 </script>

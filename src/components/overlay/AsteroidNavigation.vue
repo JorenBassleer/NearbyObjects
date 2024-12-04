@@ -1,26 +1,27 @@
 <template>
   <Html wrapper-class="list">
-    <section class="bg-transparent text-white w-64 md:w-72 rounded-lg select-none">
+    <section class="bg-transparent text-white w-64 md:w-72 rounded-lg select-none border border-white md:border-none">
       <div class="flex justify-between items-center">
         <h2 class="text-base md:text-xl border-b px-2 py-1 md:px-4 md:py-2">
           Asteroids
         </h2>
 
-        <div class="flex gap-1">
+        <div class="flex gap-1 items-center mr-2">
           Distance
-          <MaterialIcon icon="arrow_drop_up" />
-        </div>
-        <div>
-          Is danger
+          <div class="flex flex-col gap-1">
+            <span class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5">arrow_drop_up</span>
+            <span class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5">arrow_drop_down</span>
+          </div>
         </div>
       </div>
-      <section class="max-h-32 md:max-h-60 overflow-y-scroll overflow-x-hidden">
+      <section class="max-h-32 md:max-h-60 overflow-y-scroll overflow-x-hidden rounded-lg">
         <section
           v-if="+currentFocus.id !== 0"
           class="cursor-pointer text-black bg-white hover:bg-black hover:text-white"
           @click="$emit('onFocus', asteroids.find((asteroid) => asteroid.id === currentFocus.id))"
         >
           {{ asteroids.find((asteroid) => asteroid.id === currentFocus.id)?.name }}
+          {{ asteroids.find((asteroid) => asteroid.id === currentFocus.id)?.is_potentially_hazardous_asteroid ? '⚠️' : '' }}
         </section>
         <template v-else>
           <div
@@ -29,7 +30,7 @@
             class="cursor-pointer text-sm md:text-base px-2 md:px-4 transition-all duration-300 select-none font-semibold my-1 hover:text-black hover:bg-white"
             @click="$emit('onFocus', asteroid)"
           >
-            {{ asteroid.name }}
+            {{ asteroid.name }} <span v-if="asteroid.is_potentially_hazardous_asteroid ">⚠️</span>
           </div>
         </template>
       </section>
@@ -51,7 +52,7 @@ defineProps({
   },
 });
 
-defineEmits(['onFocus']);
+defineEmits(['onFocus', 'onSort']);
 
 </script>
 <style>
