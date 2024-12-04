@@ -5,13 +5,13 @@
       path="/models/Earth.glb"
       receive-shadow
       :position="[0,0,0]"
-      :scale="0.005"
+      :scale="0.01"
       draco
     />
   </Suspense>
 
   <TresPointLight
-    :args="['#fee21f', 500, 100]"
+    :args="['#7E710F', 500, 100]"
     :position="[0,0,0]"
     cast-shadow
   />
@@ -20,6 +20,7 @@
 import {
   shallowRef, watch, defineModel, defineEmits,
 } from 'vue';
+import * as THREE from 'three';
 import { useRenderLoop } from '@tresjs/core';
 import { GLTFModel } from '@tresjs/cientos';
 
@@ -28,7 +29,7 @@ const rotationEarth = defineModel('rotationEarth', {
   default: 0,
 });
 
-const emit = defineEmits(['update:component']);
+const emit = defineEmits(['update:component', 'earthRadius']);
 
 const { onLoop } = useRenderLoop();
 
@@ -36,6 +37,11 @@ const earthRef = shallowRef();
 
 watch(earthRef, (model) => {
   emit('update:component', model.value);
+  const boundingBox = new THREE.Box3().setFromObject(model.value);
+  const size = new THREE.Vector3();
+  boundingBox.getSize(size);
+  emit('earthRadius', Math.sqrt(size.x ** 2 + size.y ** 2 + size.z ** 2) / 2);
+
   onLoop(({ delta }) => {
     if (model.value) {
       /* eslint-disable no-param-reassign */
