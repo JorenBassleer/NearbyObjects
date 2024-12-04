@@ -73,7 +73,7 @@ const props = defineProps({
 const emit = defineEmits(['update:component', 'onUnfocus']);
 
 const { onLoop } = useRenderLoop();
-const { computeRelativeScale, computeRelativeDistance, scaleLogarithmic } = useRelativeScale(0.005);
+const { computeRelativeDistance, scaleLogarithmic } = useRelativeScale(0.005);
 
 const astroidRef = shallowRef(null);
 const asteroidLocation = ref({
@@ -89,8 +89,7 @@ watch(astroidRef, (model) => {
   emit('update:component', model.value);
   const asteroidScale = (scaleLogarithmic(Number(props.asteroid.estimated_diameter.kilometers.estimated_diameter_max)) + scaleLogarithmic(Number(props.asteroid.estimated_diameter.kilometers.estimated_diameter_min)) / 4);
   model.value.scale.set(asteroidScale, asteroidScale, asteroidScale);
-  console.log('missDistance:', scaleLogarithmic(Number(props.asteroid.close_approach_data[0].miss_distance.kilometers)) + props.earthRadius);
-  console.log('missDistance:', props.asteroid.close_approach_data[0].miss_distance.kilometers);
+  const calculatedEarthRadius = props.earthRadius / 1.55;
   onLoop(({ elapsed }) => {
     if (props.isFocused || !model.value) return;
 
@@ -99,7 +98,7 @@ watch(astroidRef, (model) => {
     const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
     const angle = (props.rotationEarth + effectiveElapsed) * orbitSpeed;
 
-    const missDistance = scaleLogarithmic(Number(props.asteroid.close_approach_data[0].miss_distance.kilometers)) + props.earthRadius;
+    const missDistance = computeRelativeDistance(Number(props.asteroid.close_approach_data[0].miss_distance.kilometers)) + calculatedEarthRadius;
     /* eslint-disable no-param-reassign */
     model.value.position.x = Number(props.positionEarth.x) + missDistance * Math.sin(angle);
     model.value.position.z = Number(props.positionEarth.z) + missDistance * Math.cos(angle);
