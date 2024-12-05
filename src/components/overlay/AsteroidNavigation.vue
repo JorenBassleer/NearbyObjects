@@ -11,14 +11,13 @@
           <div class="flex flex-col gap-1">
             <span
               class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5"
-              :class="{
-                'bg-gray-600': currentFilterActive.type = 'asc'
-              }"
-              @click="onSort({ key: 'distance', type: 'asc'})"
+              :class="currentFilterActive === 'asc' ? 'text-gray-600 hover:text-gray-400' : 'hover:text-gray-600'"
+              @click="onSort(currentFilterActive ==='asc' ? '' : 'asc')"
             >arrow_drop_up</span>
             <span
               class="material-icons cursor-pointer hover:text-gray-600 transition-colors duration-150 h-5 w-5"
-              @click="onSort({ key: 'distance', type: 'desc'})"
+              :class="currentFilterActive === 'desc' ? 'text-gray-600 hover:text-gray-400' : 'hover:text-gray-600'"
+              @click="onSort(currentFilterActive ==='desc' ? '' : 'desc')"
             >arrow_drop_down</span>
           </div>
         </div>
@@ -66,7 +65,7 @@ const emit = defineEmits(['onFocus', 'onSort']);
 const currentFilterActive = ref('');
 
 const onSort = (sortInfo) => {
-  currentFilterActive.value = { ...sortInfo };
+  currentFilterActive.value = sortInfo;
   emit('onSort', currentFilterActive.value);
 };
 </script>

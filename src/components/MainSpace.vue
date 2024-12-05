@@ -1,7 +1,8 @@
 <template>
   <AsteroidNavigation
-    :asteroids="allAsteroids"
+    :asteroids="sortedAsteroids"
     :current-focus="currentFocus"
+    @on-sort="currentFilter = $event"
     @on-focus="toggleFocus($event)"
   />
   <DatePicker
@@ -39,7 +40,9 @@
 </template>
 
 <script setup>
-import { shallowRef, onMounted, ref } from 'vue';
+import {
+  shallowRef, onBeforeMount, ref, computed,
+} from 'vue';
 import { gsap } from 'gsap';
 
 import { useTresContext } from '@tresjs/core';
@@ -54,6 +57,8 @@ import DatePicker from './overlay/DatePicker.vue';
 import StarsBackground from './StarsBackground.vue';
 import { fetchAsteroids } from '../api/asteroid';
 
+const { scene } = useTresContext();
+
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
 
@@ -64,7 +69,19 @@ const earthRadius = shallowRef(0);
 
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
-const { scene } = useTresContext();
+const currentFilter = ref('');
+
+const sortedAsteroids = computed(() => {
+  if (!allAsteroids.value) return [];
+  if (currentFilter.value === '') return allAsteroids.value;
+  return [...allAsteroids.value].sort((a, b) => {
+    const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
+    const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
+    if (currentFilter.value === 'asc') {
+      return distanceA - distanceB;
+    } return distanceB - distanceA;
+  });
+});
 
 const currentFocus = ref({
   id: '0',
@@ -137,14 +154,8 @@ const toggleFocus = (asteroid) => {
   }
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData)
-    .flat()
-    .sort((a, b) => {
-      const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
-      const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
-      return distanceA - distanceB;
-    });
+  allAsteroids.value = Object.values(fetchedData).flat();
 });
 </script>
