@@ -1,12 +1,10 @@
 # To Do
 ## Next steps
-1. Have sort in list & fix on mobile (Size, Dangerous ones/...)
-2. Look to improve information Panel (& positioning)
-3. Create Title screen
-4. Add more asteroids (randomiser in which asteroid is used)
+1. Look to improve information Panel (& positioning especially on small asteroids)
+2. Create Title screen
+3. Add more asteroids (randomiser in which asteroid is used)
 
 ## Nice to haves
-- Make clicking on asteroid possible
 - Have zoom animation be increased on smaller asteroids?
 - Better phone controls -> click on asteroid?
 - distances in relation to distances between earth & moon
