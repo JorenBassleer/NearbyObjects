@@ -1,7 +1,8 @@
 <template>
   <AsteroidNavigation
-    :asteroids="allAsteroids"
+    :asteroids="sortedAsteroids"
     :current-focus="currentFocus"
+    @on-sort="currentFilter = $event"
     @on-focus="toggleFocus($event)"
   />
   <DatePicker
@@ -10,7 +11,7 @@
   />
   <TresPerspectiveCamera
     ref="cameraRef"
-    :position="[10, 10, 10]"
+    :position="[20, 20, 20]"
   />
   <OrbitControls
     ref="orbitControlsRef"
@@ -39,7 +40,9 @@
 </template>
 
 <script setup>
-import { shallowRef, onMounted, ref } from 'vue';
+import {
+  shallowRef, onBeforeMount, ref, computed,
+} from 'vue';
 import { gsap } from 'gsap';
 
 import { useTresContext } from '@tresjs/core';
@@ -54,6 +57,8 @@ import DatePicker from './overlay/DatePicker.vue';
 import StarsBackground from './StarsBackground.vue';
 import { fetchAsteroids } from '../api/asteroid';
 
+const { scene } = useTresContext();
+
 const orbitControlsRef = shallowRef();
 const cameraRef = shallowRef();
 
@@ -64,7 +69,19 @@ const earthRadius = shallowRef(0);
 
 const allAsteroids = shallowRef([]);
 const allAsteroidRefs = shallowRef([]);
-const { scene } = useTresContext();
+const currentFilter = ref('');
+
+const sortedAsteroids = computed(() => {
+  if (!allAsteroids.value) return [];
+  if (currentFilter.value === '') return allAsteroids.value;
+  return [...allAsteroids.value].sort((a, b) => {
+    const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
+    const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
+    if (currentFilter.value === 'asc') {
+      return distanceA - distanceB;
+    } return distanceB - distanceA;
+  });
+});
 
 const currentFocus = ref({
   id: '0',
@@ -77,7 +94,7 @@ const currentFocus = ref({
 
 const selectedDateRange = ref([
   new Date(),
-  new Date(new Date().setDate(new Date().getDate() + 7)),
+  new Date(new Date().setDate(new Date().getDate() + 2)),
 ]);
 
 const formatDate = (date) => {
@@ -95,7 +112,13 @@ const deleteOldAsteroidsFromScene = () => {
 const onUpdateDateRange = async () => {
   deleteOldAsteroidsFromScene();
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
-  allAsteroids.value = Object.values(fetchedData).flat();
+  allAsteroids.value = Object.values(fetchedData)
+    .flat()
+    .sort((a, b) => {
+      const distanceA = Number(a.close_approach_data[0].miss_distance.kilometers);
+      const distanceB = Number(b.close_approach_data[0].miss_distance.kilometers);
+      return distanceA - distanceB;
+    });
 };
 
 const animateCameraPosition = (newPosition, duration = 3.5) => {
@@ -121,7 +144,7 @@ const animateFocusPosition = (newPosition, duration = 1.5) => {
 const toggleFocus = (asteroid) => {
   if (currentFocus.value?.id === asteroid.id) {
     currentFocus.value.id = '0';
-    animateCameraPosition({ x: 10, y: 10, z: 10 });
+    animateCameraPosition({ x: 20, y: 20, z: 20 });
     animateFocusPosition({ x: 0, y: 0, z: 0 });
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
@@ -131,7 +154,7 @@ const toggleFocus = (asteroid) => {
   }
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const fetchedData = await fetchAsteroids(selectedDateRange.value.map((entry) => formatDate(entry)));
   allAsteroids.value = Object.values(fetchedData).flat();
 });

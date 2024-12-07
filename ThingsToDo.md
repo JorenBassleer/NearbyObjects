@@ -1,15 +1,12 @@
 # To Do
 ## Next steps
-1. Set all data to a relative scale (look for scales maybe first)
-2. Have sort in list (Size, Dangerous ones/...)
-3. Look to improve information Panel
-4. Create Title screen
-5. Add more asteroids (randomiser in which asteroid is used)
+1. Look to improve information Panel (& positioning especially on small asteroids)
+2. Create Title screen
+3. Add more asteroids (randomiser in which asteroid is used)
 
 ## Nice to haves
-- Make clicking on asteroid possible
-- Animate size on focus?
-- Better phone controls
+- Have zoom animation be increased on smaller asteroids?
+- Better phone controls -> click on asteroid?
 - distances in relation to distances between earth & moon
 - Title screen; if user clicks on "enter/start" before everything is loaded, show loader. Otherwise just show the app. (Save in cookies to not show again)
 - Click on asteroid & fetch more information about it(using the links and usch on it)

@@ -2,7 +2,6 @@
   <Html wrapper-class="rangePicker w-full">
     <VueDatePicker
       v-model="modelValue"
-      placeholder="Range of max 7 days"
       class="text-white"
       :enable-time-picker="false"
       :range="{ maxRange: 7 }"
@@ -28,8 +27,17 @@ const modelValue = defineModel({
   left: 50% !important;
   transform: translate(-50vw, -50vh) !important;
   z-index: 50 !important;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+  margin-top: 3.5rem;
 }
+
+@media (min-width: 768px) {
+  .rangePicker {
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
+}
+
 .dp__input_wrap > input {
   background: transparent;
   border: none;
