@@ -1,8 +1,8 @@
 <template>
   <Html wrapper-class="list">
     <section class="bg-transparent text-white w-64 md:w-72 rounded-lg select-none border border-white md:border-none">
-      <div class="flex justify-between items-center">
-        <h2 class="text-base md:text-xl border-b px-2 py-1 md:px-4 md:py-2">
+      <div class="flex justify-between items-center border-b">
+        <h2 class="text-base md:text-xl px-2 py-1 md:px-4 md:py-2">
           Asteroids
         </h2>
 
@@ -78,6 +78,11 @@ const onSort = (sortInfo) => {
   left: 50% !important;
   transform: translate(-50vw, -50vh) !important;
   z-index: 50 !important;
-  margin: 2.5rem 1rem 1rem 1rem;
+  margin: 5.5rem 1rem 1rem 1rem;
+}
+@media (min-width: 768px) {
+  .list {
+    margin: 4rem 1rem 1rem 1rem;
+  }
 }
 </style>
