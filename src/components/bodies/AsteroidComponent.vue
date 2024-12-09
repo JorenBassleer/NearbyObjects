@@ -92,8 +92,6 @@ watch(astroidRef, (model) => {
   model.value.scale.set(asteroidScale, asteroidScale, asteroidScale);
   const calculatedEarthRadius = props.earthRadius / 1.55;
 
-  // eslint-disable-next-line no-console
-  console.log('asteroid', props.asteroid);
   onLoop(({ elapsed }) => {
     if (props.isFocused || !model.value) return;
 
