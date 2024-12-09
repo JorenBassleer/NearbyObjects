@@ -1,7 +1,7 @@
 # To Do
 ## Next steps
-1. Look to improve information Panel (& positioning especially on small asteroids)
-2. Create Title screen
+1. Increase zoom on (small) asteroids (+ increase size of everything)
+2. Add more variable orbits + cap zoom (z-axis)
 3. Add more asteroids (randomiser in which asteroid is used)
 
 ## Nice to haves

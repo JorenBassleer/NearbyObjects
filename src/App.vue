@@ -8,7 +8,7 @@
       @enter="userWantsToEnter = true"
     />
   </Transition>
-  <transition name="fade">
+  <Transition name="fade">
     <div v-show="userWantsToEnter && hasSeenTitleScreen">
       <Suspense>
         <LoaderSlider />
@@ -20,7 +20,7 @@
         <MainSpace />
       </TresCanvas>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <script setup>
