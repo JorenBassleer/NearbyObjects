@@ -31,7 +31,6 @@ const emit = defineEmits(['enter']);
 
 const setHasSeenTitleScreen = () => {
   emit('enter');
-  localStorage.setItem('hasSeenTitleScreen', true);
 };
 </script>
 <style scoped>

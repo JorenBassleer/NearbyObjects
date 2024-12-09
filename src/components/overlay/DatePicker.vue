@@ -6,7 +6,11 @@
       :enable-time-picker="false"
       :range="{ maxRange: 7 }"
       dark
-    />
+    >
+      <template #input-icon>
+        <div />
+      </template>
+    </VueDatePicker>
   </Html>
 </template>
 <script setup>
@@ -21,6 +25,7 @@ const modelValue = defineModel({
 
 <style>
 .rangePicker {
+  font-family: "Jaro", sans-serif;
   display: block !important;
   position: fixed !important;
   top: 50% !important;
