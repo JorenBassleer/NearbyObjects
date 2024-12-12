@@ -1,27 +1,28 @@
 <template>
   <Suspense>
     <Stars
-      :rotation="[0, currentSunRotation, 0]"
       :size="starsSize"
+      :rotation="[0, yRotation, 0]"
       :radius="400"
+      :size-attenuation="true"
     />
   </Suspense>
 </template>
 <script setup>
-import { watch, defineProps, shallowRef } from 'vue';
+import { watch, shallowRef } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 import { Stars } from '@tresjs/cientos';
-
-defineProps({
-  currentSunRotation: {
-    type: Number,
-    required: true,
-  },
-});
+import { useRenderLoop } from '@tresjs/core';
 
 const { width } = useWindowSize();
+const { onLoop } = useRenderLoop();
+const yRotation = shallowRef(0);
 
 const starsSize = shallowRef(width.value <= 768 ? 0.4 : 0.2);
+
+onLoop(({ delta }) => {
+  yRotation.value += 0.02 * delta;
+});
 
 watch(width, (v) => {
   if (v <= 768) {
@@ -30,4 +31,5 @@ watch(width, (v) => {
     starsSize.value = 0.2;
   }
 });
+
 </script>

@@ -45,7 +45,7 @@ watch(earthRef, (model) => {
   onLoop(({ delta }) => {
     if (model.value) {
       /* eslint-disable no-param-reassign */
-      model.value.rotation.y += (delta * 0.2);
+      model.value.rotation.y += (delta * 0.1);
       rotationEarth.value = model.value.rotation.y;
       /* eslint-enable no-param-reassign */
     }

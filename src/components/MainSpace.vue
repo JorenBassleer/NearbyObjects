@@ -16,6 +16,7 @@
   <OrbitControls
     ref="orbitControlsRef"
     :target="[currentFocus.position.x, currentFocus.position.y, currentFocus.position.z]"
+    :max-distance="400"
   />
   <AsteroidComponent
     v-for="asteroid in allAsteroids"
@@ -34,7 +35,7 @@
     @update:component="earthRef = $event"
   />
 
-  <StarsBackground :current-sun-rotation="currentEarthRotation" />
+  <StarsBackground />
 
   <TresAmbientLight :intensity="2.5" />
 </template>
@@ -124,10 +125,19 @@ const onUpdateDateRange = async () => {
 const animateCameraPosition = (newPosition, duration = 3.5) => {
   gsap.to(cameraRef.value.position, {
     duration,
-    x: newPosition.x + 10,
-    y: newPosition.y + 10,
-    z: newPosition.z + 10,
+    x: newPosition.x + 1,
+    y: newPosition.y + 1,
+    z: newPosition.z + 1,
     ease: 'power3.inOut',
+  });
+};
+
+const animateZoom = () => {
+  gsap.to(orbitControlsRef.value.value, {
+    minDistance: 1,
+    duration: 3,
+    overwrite: 'auto',
+    ease: 'power1.inOut',
   });
 };
 
@@ -138,6 +148,9 @@ const animateFocusPosition = (newPosition, duration = 1.5) => {
     y: newPosition.y,
     z: newPosition.z,
     ease: 'power3.inOut',
+    onComplete: () => {
+      animateZoom();
+    },
   });
 };
 
@@ -146,11 +159,13 @@ const toggleFocus = (asteroid) => {
     currentFocus.value.id = '0';
     animateCameraPosition({ x: 20, y: 20, z: 20 });
     animateFocusPosition({ x: 0, y: 0, z: 0 });
+    orbitControlsRef.value.value.minDistance = 10;
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
     currentFocus.value.id = foundAsteroid.id;
     animateCameraPosition(foundAsteroid.position);
     animateFocusPosition(foundAsteroid.position);
+    animateZoom();
   }
 };
 
