@@ -134,10 +134,10 @@ const animateCameraPosition = (newPosition, duration = 3.5) => {
 
 const animateZoom = () => {
   gsap.to(orbitControlsRef.value.value, {
+    maxDistance: 1,
     minDistance: 1,
-    duration: 3,
-    overwrite: 'auto',
-    ease: 'power1.inOut',
+    duration: 1,
+    ease: 'power2.inOut',
   });
 };
 
@@ -149,7 +149,8 @@ const animateFocusPosition = (newPosition, duration = 1.5) => {
     z: newPosition.z,
     ease: 'power3.inOut',
     onComplete: () => {
-      animateZoom();
+      if (currentFocus.value.id === '0') orbitControlsRef.value.value.maxDistance = 400;
+      else animateZoom();
     },
   });
 };
@@ -159,13 +160,11 @@ const toggleFocus = (asteroid) => {
     currentFocus.value.id = '0';
     animateCameraPosition({ x: 20, y: 20, z: 20 });
     animateFocusPosition({ x: 0, y: 0, z: 0 });
-    orbitControlsRef.value.value.minDistance = 10;
   } else {
     const foundAsteroid = allAsteroidRefs.value.find((astroidRef) => astroidRef.id === asteroid.id);
     currentFocus.value.id = foundAsteroid.id;
     animateCameraPosition(foundAsteroid.position);
     animateFocusPosition(foundAsteroid.position);
-    animateZoom();
   }
 };
 
