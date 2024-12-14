@@ -10,6 +10,9 @@
       <template #input-icon>
         <div />
       </template>
+      <template #clear-icon>
+        <div />
+      </template>
     </VueDatePicker>
   </Html>
 </template>
