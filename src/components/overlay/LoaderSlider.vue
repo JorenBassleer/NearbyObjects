@@ -19,6 +19,7 @@
         <img
           class="text-white w-20 select-none"
           src="../../assets/comet.svg"
+          @dragstart.prevent
         >
       </div>
     </div>
