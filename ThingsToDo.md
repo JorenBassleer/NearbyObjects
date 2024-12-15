@@ -1,7 +1,4 @@
 # To Do
-## Next steps
-1. Add more asteroids (randomiser in which asteroid is used)
-
 ## Nice to haves
 - Have zoom animation be increased on smaller asteroids?
 - Better phone controls -> click on asteroid?
