@@ -2,7 +2,7 @@
   <Suspense>
     <GLTFModel
       ref="astroidRef"
-      path="/models/Itokawa.glb"
+      :path="`/models/${random3DModel}.glb`"
       cast-shadow
       receive-shadow
       :scale="0.002"
@@ -71,6 +71,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:component', 'onUnfocus']);
+
+const asteroid3DModel = [
+  'Itokawa',
+  'Bennu',
+  'Eros',
+  'Vesta',
+];
+
+const random3DModel = asteroid3DModel[Math.floor(Math.random() * 4)];
 
 const { onLoop } = useRenderLoop();
 const { computeRelativeDistance, scaleLogarithmic } = useRelativeScale(0.005);
