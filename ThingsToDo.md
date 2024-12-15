@@ -1,7 +1,6 @@
 # To Do
 ## Next steps
-1. Add more variable orbits + cap zoom (z-axis)
-2. Add more asteroids (randomiser in which asteroid is used) Delete datepicker delete icon
+1. Add more asteroids (randomiser in which asteroid is used)
 
 ## Nice to haves
 - Have zoom animation be increased on smaller asteroids?
