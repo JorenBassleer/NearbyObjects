@@ -5,7 +5,7 @@
       path="/models/Itokawa.glb"
       cast-shadow
       receive-shadow
-      :scale="0.001"
+      :scale="0.002"
       draco
     />
   </Suspense>
@@ -91,7 +91,8 @@ watch(astroidRef, (model) => {
   const asteroidScale = (scaleLogarithmic(Number(props.asteroid.estimated_diameter.kilometers.estimated_diameter_max)) + scaleLogarithmic(Number(props.asteroid.estimated_diameter.kilometers.estimated_diameter_min)) / 4);
   model.value.scale.set(asteroidScale, asteroidScale, asteroidScale);
   const calculatedEarthRadius = props.earthRadius / 1.55;
-
+  const tiltAngleX = Math.random() * Math.PI * 2;
+  const tiltAngleZ = Math.random() * Math.PI * 2;
   onLoop(({ elapsed }) => {
     if (props.isFocused || !model.value) return;
 
@@ -99,11 +100,17 @@ watch(astroidRef, (model) => {
 
     const orbitSpeed = props.asteroid.close_approach_data[0].relative_velocity.kilometers_per_second / 10;
     const angle = (props.rotationEarth + effectiveElapsed) * orbitSpeed;
-
     const missDistance = computeRelativeDistance(Number(props.asteroid.close_approach_data[0].miss_distance.kilometers)) + calculatedEarthRadius;
+    const orbitX = missDistance * Math.cos(angle);
+    const orbitZ = missDistance * Math.sin(angle);
+
+    const tiltedY = orbitX * Math.sin(tiltAngleX) + orbitZ * Math.sin(tiltAngleZ);
+    const tiltedZ = orbitZ * Math.cos(tiltAngleZ);
+
     /* eslint-disable no-param-reassign */
-    model.value.position.x = Number(props.positionEarth.x) + missDistance * Math.sin(angle);
-    model.value.position.z = Number(props.positionEarth.z) + missDistance * Math.cos(angle);
+    model.value.position.x = Number(props.positionEarth.x) + orbitX;
+    model.value.position.y = Number(props.positionEarth.y) + tiltedY;
+    model.value.position.z = Number(props.positionEarth.z) + tiltedZ;
 
     asteroidLocation.value = JSON.parse(JSON.stringify(model.value.position));
     /* eslint-enable no-param-reassign */
